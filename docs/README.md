@@ -3,7 +3,8 @@ home: true
 layout: Blog
 icon: home
 title: HomePage
-heroImage: /logo.jpg
+bgImage: /images/hero.jpg
+heroImage: /images/logo.jpg
 heroText: Leslie's Blog
 heroFullScreen: true
 tagline: 学吧，打工仔，继续学吧
@@ -33,7 +34,7 @@ projects:
     desc: 伙伴详细介绍
     link: https://你的伙伴链接
 
-  - icon: /logo.png
+  - icon: /images/logo.png
     name: 自定义项目
     desc: 自定义详细介绍
     link: https://你的自定义链接

@@ -44,10 +44,9 @@ export const zhSidebar = sidebar({
               prefix: 'ubuntu/',
               collapsable: true,
               children: [
-                "Ubuntu装机初始化.md",
-                "刷机报错.md",
-                "MTK刷机工具MT8167版本打不开，缺少libpng12-0的解决方法.md",
-                "开机自动执行python脚本发送本机ip地址到指定邮箱.md",
+                "装机初始化.md",
+                "刷机问题.md",
+                "开机自动发送邮件.md",
               ]
             }
           ],
