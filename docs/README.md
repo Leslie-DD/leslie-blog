@@ -2,11 +2,11 @@
 home: true
 layout: Blog
 icon: home
-title: 博客主页
-heroImage: /logo.svg
-heroText: 你博客的名称
+title: HomePage
+heroImage: /logo.jpg
+heroText: Leslie's Blog
 heroFullScreen: true
-tagline: 你可以在这里放置你的口号与标语
+tagline: 学吧，打工仔，继续学吧
 projects:
   - icon: project
     name: 项目名称
@@ -33,16 +33,16 @@ projects:
     desc: 伙伴详细介绍
     link: https://你的伙伴链接
 
-  - icon: /logo.svg
+  - icon: /logo.png
     name: 自定义项目
     desc: 自定义详细介绍
     link: https://你的自定义链接
 
-footer: 自定义你的页脚文字
+footer: Hello, Leslie!
 ---
 
-这是一个博客主页的案例。
+<!-- 这是一个博客主页的案例。
 
 要使用此布局，你应该在页面前端设置 `layout: Blog` 和 `home: true`。
 
-相关配置文档请见 [博客主页](https://vuepress-theme-hope.github.io/v2/zh/guide/blog/home/)。
+相关配置文档请见 [博客主页](https://vuepress-theme-hope.github.io/v2/zh/guide/blog/home/)。 -->
