@@ -1,6 +1,6 @@
 import { hopeTheme } from "vuepress-theme-hope";
-import { enNavbar, zhNavbar } from "./navbar/index.js";
-import { enSidebar, zhSidebar } from "./sidebar/index.js";
+import { zhNavbar } from "./navbar/index.js";
+import { zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
   hostname: "https://mister-hope.github.io",
@@ -60,34 +60,8 @@ export default hopeTheme({
 
   locales: {
     "/": {
-      // navbar
-      navbar: enNavbar,
-
-      // sidebar
-      sidebar: enSidebar,
-
-      footer: "Default footer",
-
-      displayFooter: true,
-
-      blog: {
-        description: "A FrontEnd programmer",
-        intro: "/intro.html",
-      },
-
-      metaLocales: {
-        editLink: "Edit this page on GitHub",
-      },
-    },
-
-    /**
-     * Chinese locale config
-     */
-    "/zh/": {
-      // navbar
       navbar: zhNavbar,
 
-      // sidebar
       sidebar: zhSidebar,
 
       footer: "默认页脚",
@@ -96,10 +70,9 @@ export default hopeTheme({
 
       blog: {
         description: "一个前端开发者",
-        intro: "/zh/intro.html",
+        intro: "/intro.html",
       },
 
-      // page meta
       metaLocales: {
         editLink: "在 GitHub 上编辑此页",
       },
@@ -109,7 +82,6 @@ export default hopeTheme({
   encrypt: {
     config: {
       "/demo/encrypt.html": ["1234"],
-      "/zh/demo/encrypt.html": ["1234"],
     },
   },
 
@@ -151,7 +123,7 @@ export default hopeTheme({
       chart: true,
       codetabs: true,
       container: true,
-      demo: true,
+      // demo: true,
       echarts: true,
       flowchart: true,
       gfm: true,
