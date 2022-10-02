@@ -1,0 +1,84 @@
+---
+title: Ubuntu装机初始化
+editLink: false
+comment: false
+---
+
+## 2. 安装Edge、小米办公、VS Code、Utools（文件在Ubuntu装机必备文件夹）
+[Ubuntu 22.04 打不开 utools 问题解决](https://blog.csdn.net/bugpz/article/details/124686977)
+
+**libcrypto.so.1.1 文件在Ubuntu装机必备文件夹**
+
+## 3. 安装termintor
+
+```bash
+sudo apt-get install terminator
+```
+并且重新配置复制粘贴快捷键
+
+## 4. 安装zsh
+
+安装zsh
+```bash
+sudo apt install zsh 
+```
+
+将zsh设置成默认shell（不设置的话启动zsh只有直接zsh命令即可）
+```bash
+chsh -s /bin/zsh
+```
+
+安装oh my zsh
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+安装高亮
+```bash
+git clone https://gitee.com/Annihilater/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
+
+安装命令提示插件
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+配置.zshrc
+```bash
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+```
+
+theme推荐`bira`
+```bash
+ZSH_THEME="bira"
+```
+
+配置alias
+```
+alias mtk18='cd ~/mtk-tools/SP_Flash_Tool_exe_Linux_v5.1832.00.100 && sudo ./flash_tool'
+alias mtk19='cd ~/mtk-tools/SP_Flash_Tool_exe_Linux_v5.1952.00.100 && sudo ./flash_tool'
+
+alias leslie='cd ~'
+```
+
+## 5. [安装配置Fcitx5中文输入法](https://blog.csdn.net/mziing/article/details/124557091?spm=1001.2014.3001.5506 "")
+
+## 6. 配置键盘快捷键
+
+窗口 --> 激活窗口菜单 禁用
+
+打字 切换上\下个输入源 禁用
+
+设置键盘快捷键“关闭窗口”为command + q
+
+开机选择用户后选择Gnome为Ubuntu Xorg，不然输入法没法在浏览器使用
+
+## 7. [mtk-tools手动比编译libpng12-0](/tools/linux/ubuntu/MTK刷机工具MT8167版本打不开，缺少libpng12-0的解决方法.md)
+
+
+## 主题美化
+[系统主题美化](https://www.jianshu.com/p/853398e33bf3 "系统主题美化")
+
+[mac os键盘规则](http://www.ptbird.cn/ubuntu-mac-os-vscode-keycut.html "mac os键盘规则")
+
+[caps切换输入法](https://blog.csdn.net/weixin_42812613/article/details/105378843#comments_19865599 "caps切换输入法")
