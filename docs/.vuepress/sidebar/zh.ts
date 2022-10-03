@@ -38,6 +38,7 @@ export const zhSidebar = sidebar({
             "配置JDK和Tomcat.md",
             "安装MySQL8.md",
             "增大swap空间.md",
+            "BuildDocker.md",
             {
               text: "💽 Ubuntu",
               // link: '/tools/linux/ubuntu', // 写了link标签就要在该路径下新建README.md文件，不然点击这一栏会404
