@@ -42,6 +42,7 @@ COPY readme.txt /usr/local/cincontainer.txt
 # 把宿主机当前上下文的（也就是当前目录）java与tomcat安装包添加到容器中
 ADD apache-tomcat-9.0.67.tar.gz /usr/local/
 ADD jdk-8u281-linux-x64.tar.gz /usr/local/
+ADD reading_pictures.tar.gz /root/
 
 # 安装vim编辑器
 # RUN apt install vim
@@ -93,9 +94,9 @@ sudo service docker restart
 
 ```bash
 sudo docker run -p 8081:8080 \
---name docker-tomcat \
--v /home/mydockerfile/tomcat9/webapps:/usr/local/apache-tomcat-9.0.44/webapps \
--v /home/mydockerfile/tomcat9/tomcatlogs:/usr/local/apache-tomcat-9.0.44/logs \
+--name leslie-tomcat \
+-v ~/leslie-tomcat9/webapps:/usr/local/apache-tomcat-9.0.67/webapps \
+-v ~/leslie-tomcat9/tomcatlogs:/usr/local/apache-tomcat-9.0.67/logs \
 --privileged=true \
 -d leslie-tomcat9
 ```
