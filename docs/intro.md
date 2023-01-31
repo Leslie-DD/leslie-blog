@@ -6,6 +6,8 @@ comment: false
 
 # 👱‍♂️ Leslie? Who?
 
+![](/images/picture.jpg)
+
 ## 🍺 Hobby
 
 - 🚘 Driving
