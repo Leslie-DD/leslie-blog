@@ -68,6 +68,7 @@ export const zhSidebar = sidebar({
           collapsable: true,
           children: [
             "adb卸载app失败.md",
+            "Mac下adb命令无法执行.md",
           ]
         },
         // "/tools/git_github_tips.md",
