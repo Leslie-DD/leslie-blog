@@ -9,44 +9,59 @@ editLink: false
 comment: false
 ---
 
-# Git & GitHub
-## 一、新建远程分支
-先在本地新建分支
+## 输出 commits 到文件
 ```bash
-git checkout -b alpha
+git log --pretty=format:"%H|%s|%an" --since="100 day ago" >> ~/Desktop/commit.txt
 ```
-把本地分支push到远程仓库
-```bash
-git push origin alpha:alpha
-```
+[参考博客](https://www.cnblogs.com/bellkosmos/p/5923439.html)
 
-## 二、新建本地分支并跟随远程分支
-新建本地分支test
-```bash
-git checkout -b test
-```
-将本地分支test跟随远程分支origin/alpha
-```bash
-git branch --set-upstream-to remotes/origin/alpha
-```
+## 分支基本操作
 
-## 三、删除远程分支
-推送一个空分支到远程分支，其实就相当于删除远程分支：
+### 1. 新建远程分支
 
 ```bash
-git push origin :dbg_lichen_star
+git checkout -b alpha # 先在本地新建分支
+git push origin alpha:alpha # 把本地分支push到远程仓库
 ```
-也可以使用：
+
+### 2. 新建本地分支并跟随远程分支
+
 ```bash
+git checkout -b test # 新建本地分支test
+git branch --set-upstream-to remotes/origin/alpha # 将本地分支test跟随远程分支origin/alpha
+# 或者
+git checkout -b test origin/alpha
+```
+
+### 3. 删除远程分支
+
+```bash
+git push origin :dbg_lichen_star # 推送一个空分支到远程分支，其实就相当于删除远程分支
+# 或者
 git push origin --delete dbg_lichen_star
 ```
 
-## 四、取消本地分支与远程分支的跟随
+### 4. 取消本地分支与远程分支的跟随
 ```bash
 git branch --unset-upstream
 ```
 
-## 五、git pull 每次都要输入密码
+### 5. 修改本地分支名称
+```bash
+git branch -m OldBranchName NewBranchName
+```
+
+### 6. 本地删除远程已删除的分支
+> 每次将一个分支在 gitlab 上 merge 到开发分支，默认都会是删除，但是有次`git branch -r`发现对应的分支还有。
+>
+> 原因是本地和远端没有同步。
+
+```bash
+git remote show origin # 这个命令可以看到分支的详细信息，远程仓库已经不存在的分支会提示`(stale (use 'git remote prune' to remove))`
+git remote prune origin # 根据提示删除或者说同步本地分支
+```
+
+## git pull 每次都要输入密码
 其实有两种方式
 #### 1、ssh方式clone项目，并把本机token托管到github ssh keys
 #### 2、保存Username和personal access tokens
@@ -55,59 +70,27 @@ git config --local credential.helper store
 ```
 下次pull的时候输一次密码以后就不用输了
 
-## 六、本地删除远程已删除的分支
-> 每次将一个分支在gitlab上merge到开发分支，默认都会是删除，但是有次`git branch -r`发现对应的分支还有。
->
-> 原因是本地和远端没有同步。
-#### 1. 查看远程分支
-
-```bash
-git remote show origin
-```
-
-这个命令可以看到分支的详细信息，远程仓库已经不存在的分支会提示`(stale (use 'git remote prune' to remove))`
-
-#### 2. 根据提示删除或者说同步本地分支
-
-```bash
-git remote prune origin
-```
-
-执行完命令会展示哪些分支已经从本地删除
-
-## 七、pull远程分支并解冲突
+## pull远程分支并解冲突
 
 > 如果在master分支下面新建一个分支，开发的同时，master又新增了一下代码，需要在新的master上面继续开发
 
 1. 先把自己写的代码，保存到本地库，然后推送到来远程库（至关重要），然后拉下来远程库，也很重要
-
 2. 切换到本地master分支，pull取远程仓库中最新的master代码
-
 3. 切换到你现在开发的分支，在git命令中输入：git rebase origin/MASTER
-
 4. 这样就会把你现在正在开发的分支中已经写好的代码与最新的Master分支的代码融合在一起
-
 5. 输入 git status 显示冲突的文件，然后找到一个文件解决冲突，git add 文件名
 这样才算解决一个冲突。输入 git rebase --continue ，继续git status ....... 直到所有的冲突全部解决（git status如果不显示冲突文件，但又处于rebase状态，输入git rebase --skip)。如果不想解决冲突了，输入 git rebase --abort ，回到最初的状态，前面解决的所有冲突都会恢复到以前的状态
-
 6. 解决完冲突后，推送到远程库。
-
 7. 完成
 
-如何查看rebase完成了呢？git branch看看自己是否在当前的分支，如果回到当前分支，就是rebase完成。
+> 如何查看rebase完成了呢？git branch看看自己是否在当前的分支，如果回到当前分支，就是rebase完成。
+> 如果rebase没有完成，git branch不会在当前分支，会在rebase新开的分支（一个临时的分支）里面。
+> git branch -vv 查看自己的分支，以及自己的分支与远程分支落后多少个文件，如果落后了就git pull，解决冲突.
+> git push失败，可能是本地这个分支有一些文件落后远程分支，需要git pull.
 
-如果rebase没有完成，git branch不会在当前分支，会在rebase新开的分支里面。（一个临时的分支）
 
-git branch -vv 查看自己的分支，以及自己的分支与远程分支落后多少个文件，如果落后了就git pull，解决冲突
 
-git push失败，可能是本地这个分支有一些文件落后远程分支，需要git pull
-
-## 八、修改本地分支名称
-```bash
-git branch -m OldBranchName NewBranchName
-```
-
-## 九、本地多个ssh-key，如何区分
+## 本地多个ssh-key，如何区分
 
 1. 生成ssh-key
 ```bash
@@ -131,13 +114,10 @@ IdentityFile ~/.ssh/id_rsa_second
 git clone git@gitlab.xxx.com/xx.git
 ```
 
-## 十、撤销 git commit --amend
-
-1. 首先使用 `git reflog`命令查看操作记录:
-
-2. 然后reset
+## 撤销 git commit --amend
 
 ```bash
+git reflog # 查看操作记录
 git reset --soft HEAD@{1}
 ```
 
