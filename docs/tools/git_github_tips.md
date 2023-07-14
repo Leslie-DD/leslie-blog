@@ -61,6 +61,27 @@ git remote show origin # 这个命令可以看到分支的详细信息，远程�
 git remote prune origin # 根据提示删除或者说同步本地分支
 ```
 
+## 修改 gitignore 不起作用
+
+::: note
+.gitignore中已经标明忽略的文件目录下的文件，git push的时候还会出现在push的目录中，或者用git status查看状态，想要忽略的文件还是显示被追踪状态。
+:::
+
+::: tip 原因
+在git忽略目录中，新建的文件在git中会有缓存，如果某些文件已经被纳入了版本管理中，就算是在.gitignore中已经声明了忽略路径也是不起作用的，
+这时候我们就应该先把本地缓存删除，然后再进行git的提交，这样就不会出现忽略的文件了。
+:::
+
+
+```bash
+git rm -r --cached .
+git add .
+git commit -m 'update .gitignore'
+git push -u origin master
+```
+
+[Ref](https://blog.csdn.net/Saintmm/article/details/120847019)
+
 ## git pull 每次都要输入密码
 其实有两种方式
 #### 1、ssh方式clone项目，并把本机token托管到github ssh keys
