@@ -1,9 +1,13 @@
 ---
+title: Python处理Excel数据
+tag:
+  - Python
+  - Script
+  - 数据处理
 editLink: false
 comment: false
 ---
 
-# Python处理Excel数据
  > 这两天晚上帮学经济的儿子从两个excel表中提取了些数据供他做数据分析。
  >
  > 第一次用python操作excel表，记录一下。

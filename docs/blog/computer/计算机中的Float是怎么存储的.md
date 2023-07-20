@@ -1,5 +1,7 @@
 ---
 author: Leslie-D
+tag:
+  - 计算机组成原理
 editLink: false
 comment: false
 date: 2022-03-31

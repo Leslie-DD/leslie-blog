@@ -1,10 +1,11 @@
 ---
 author: Leslie-D
 title: Canvas.drawText解析
+tag:
+  - Android
+  - 转载
 editLink: false
 comment: false
-tag:
-  - 转载
 date: 2022-06-16
 ---
 

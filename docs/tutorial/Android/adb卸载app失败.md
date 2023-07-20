@@ -1,6 +1,11 @@
 ---
 author: Leslie-D
 title: adb uninstall 失败
+# category:
+#   - Tutorial
+tag:
+  - adb
+  - Android
 editLink: false
 comment: false
 date: 2022-06-16

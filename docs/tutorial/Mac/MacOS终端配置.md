@@ -4,6 +4,9 @@ title: MacOS终端配置
 author: Leslie-D
 date: 2022-06-08
 star: true
+tag:
+  - Mac
+  - Terminal
 editLink: false
 comment: false
 ---

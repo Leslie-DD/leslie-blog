@@ -1,4 +1,10 @@
 ---
+tag:
+  - Tomcat
+  - JDK
+  - Linux
+  - Ubuntu
+  - Server
 editLink: false
 comment: false
 ---

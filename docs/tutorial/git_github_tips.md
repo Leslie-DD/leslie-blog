@@ -5,6 +5,9 @@ title: Git & GitHub
 author: Leslie-D
 date: 2022-03-27
 star: true
+tag:
+  - Git
+  - Github
 editLink: false
 comment: false
 ---

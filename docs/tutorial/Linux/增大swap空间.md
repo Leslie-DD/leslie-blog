@@ -1,4 +1,8 @@
 ---
+tag:
+  - Linux
+  - Ubuntu
+  - 系统
 title: 增大swap空间
 author: Leslie-D
 date: 2022-07-04

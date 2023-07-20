@@ -24,14 +24,14 @@ export const zhSidebar = sidebar({
     },
   ],
 
-  '/tools/': [
+  '/tutorial/': [
     {
       text: "踩坑记录",
-      link: "/tools/",
+      link: "/tutorial/",
       children: [
         {
           text: "🖥 Linux",
-          link: '/tools/linux',
+          link: '/tutorial/linux',
           prefix: 'linux/',
           collapsable: true,
           children: [
@@ -41,7 +41,7 @@ export const zhSidebar = sidebar({
             "BuildDocker.md",
             {
               text: "💽 Ubuntu",
-              // link: '/tools/linux/ubuntu', // 写了link标签就要在该路径下新建README.md文件，不然点击这一栏会404
+              // link: '/tutorial/linux/ubuntu', // 写了link标签就要在该路径下新建README.md文件，不然点击这一栏会404
               prefix: 'ubuntu/',
               collapsable: true,
               children: [
@@ -54,7 +54,7 @@ export const zhSidebar = sidebar({
         },
         {
           text: "💻 Mac",
-          link: '/tools/mac',
+          link: '/tutorial/mac',
           prefix: 'mac/',
           collapsable: true,
           children: [
@@ -63,7 +63,7 @@ export const zhSidebar = sidebar({
         },
         {
           text: "📱 Android",
-          link: '/tools/android',
+          link: '/tutorial/android',
           prefix: 'android/',
           collapsable: true,
           children: [
@@ -71,20 +71,32 @@ export const zhSidebar = sidebar({
             "Mac下adb命令无法执行.md",
           ]
         },
-        // "/tools/git_github_tips.md",
+        {
+          text: "📱 Server",
+          link: '/tutorial/server',
+          prefix: 'server/',
+          collapsable: true,
+          children: [
+            {
+              text: "Idea部署远程Tomcat",
+              link: "Idea部署远程Tomcat.md",
+            },
+          ]
+        },
+        // "/tutorial/git_github_tips.md",
         {
           text: "🌿 Git & Github",
-          link: "/tools/git_github_tips.md",
+          link: "/tutorial/git_github_tips.md",
         },
         {
           text: "📦 Vuepress",
-          link: '/tools/vuepress',
+          link: '/tutorial/vuepress',
           prefix: 'vuepress/',
           collapsable: true,
         },
         {
           text: "💱 Regex",
-          link: "/tools/regex.md",
+          link: "/tutorial/regex.md",
         }
       ],
     },

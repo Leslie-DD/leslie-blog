@@ -1,4 +1,9 @@
 ---
+tag:
+  - MySQL
+  - Linux
+  - Ubuntu
+  - Server
 editLink: false
 comment: false
 ---

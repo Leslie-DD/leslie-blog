@@ -2,6 +2,12 @@
 title: 自定义 Tomcat9 Docker 镜像
 author: Leslie-D
 date: 2022-10-03
+tag:
+  - Docker
+  - Tomcat
+  - Linux
+  - Ubuntu
+  - Server
 editLink: false
 comment: false
 ---

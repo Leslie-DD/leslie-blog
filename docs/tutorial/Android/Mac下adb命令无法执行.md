@@ -1,6 +1,10 @@
 ---
 author: Leslie-D
 title: adb 在某些机型上无法执行命令
+tag:
+  - adb
+  - Android
+  - Mac
 editLink: false
 comment: false
 date: 2023-06-25

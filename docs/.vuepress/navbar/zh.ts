@@ -17,7 +17,7 @@ export const zhNavbar = navbar([
 
   {
     text: '踩坑记录',
-    prefix: '/tools/',
+    prefix: '/tutorial/',
     children: [
       {
         text: 'Linux',
@@ -30,6 +30,10 @@ export const zhNavbar = navbar([
       {
         text: 'Android',
         link: 'android'
+      },
+      {
+        text: 'Server',
+        link: 'server'
       },
       { 
         text: 'Git & GitHub', 
