@@ -34,17 +34,21 @@ mv jdk1.8.0_271 jdk1.8
 ```
 
 ### 4. 配置环境
-打开profile文件
+打开environment文件
 ```bash
-sudo gedit /etc/profile
+sudo gedit /etc/environment
 ```
 
 在文件末尾添加path
 ```bash 
-export JAVA_HOME=/usr/java/jdk1.8
-export JRE_HOME=/usr/java/jdk1.8/jre
+export JAVA_HOME=/usr/java/jdk8
+export JRE_HOME=/usr/java/jdk8/jre
 export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
-export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+export PATH=$JAVA_HOME/bin:$PATH
+
+
+CATALINA_BASE="/usr/java/tomcat9"
+CATALINA_HOME="/usr/java/tomcat9"
 ```
 
 使变量生效
