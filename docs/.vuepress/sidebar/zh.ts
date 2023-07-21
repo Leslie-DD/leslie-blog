@@ -38,7 +38,6 @@ export const zhSidebar = sidebar({
             "配置JDK和Tomcat.md",
             "安装MySQL8.md",
             "增大swap空间.md",
-            "BuildDocker.md",
             {
               text: "💽 Ubuntu",
               // link: '/tutorial/linux/ubuntu', // 写了link标签就要在该路径下新建README.md文件，不然点击这一栏会404
@@ -72,15 +71,23 @@ export const zhSidebar = sidebar({
           ]
         },
         {
-          text: "📱 Server",
+          text: "📡 Server",
           link: '/tutorial/server',
           prefix: 'server/',
           collapsable: true,
           children: [
             {
               text: "Idea部署远程Tomcat",
-              link: "Idea部署远程Tomcat.md",
+              link: "IdeaRemoteDeploy.md",
             },
+            {
+              text: "Tomcat Docker镜像",
+              link: "BuildDocker.md",
+            },
+            {
+              text: "Idea部署远程Docker Tomcat",
+              link: "IdeaRemoteDockerDeploy.md"
+            }
           ]
         },
         // "/tutorial/git_github_tips.md",

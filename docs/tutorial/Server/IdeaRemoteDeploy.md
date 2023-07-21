@@ -12,14 +12,19 @@ copyright: Copyright © 2023 Leslie
 ---
 
 ::: note 背景
-想直接将 project 通过 idea 部署到远程服务器的 Tomcat。更方便，也比本地部署再scp到服务端更能发现部署后的问题。
+由于
+1. 本地 Tomcat 和 服务器 Tomcat 配置可能有略微差异
+2. 每次部署到服务器还得用 scp 上传 war 包
+所以想直接将 project 通过 idea 编译运行并直接部署到远程服务器的 Tomcat。一来更方便，二来也更能发现代码或环境配置等的问题。
+
+但没想到这是个大坑……
 :::
 
 
-首先 idea 如何配置网上讲的都比较清楚，踩坑的地方主要在于服务器 Tomcat 的配置。
+首先 Idea 如何配置远程 Tomcat 连接网上的参考都比较多了，这里主要记录下遇到的问题，主要在于服务器 Tomcat 的配置。
 
-::: danger 服务器Tomcat配置
-1. idea 提示 Unable to connect to the [主机ip地址]:1099
+::: danger 服务器 Tomcat 配置遇到的问题
+1. idea 提示 Unable to connect to the [你的服务器ip地址]:1099
 2. 配置好 tomcat cataline.sh 后，Tomcat 启动失败
 :::
 
@@ -44,11 +49,11 @@ export JAVA_OPTS
 
 整了一晚上的问题，最后发现是没有换行，谁能体会这种痛苦，真 CTM 了……
 
-真正起作用的配置：(xxx.xxx.xx.xxx 换成你的服务器地址)
+真正起作用的配置：(注意配置自己的服务器ip地址)
 
 ```bash
-CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=xxx.xxx.xx.xxx"
-JAVA_OPTS="-Dcom.sun.management.jmxremote= -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=xxx.xxx.xx.xxx"
+CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=[你的服务器ip地址]"
+JAVA_OPTS="-Dcom.sun.management.jmxremote= -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=[你的服务器ip地址]"
 JAVA_OPTS="$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 export JAVA_OPTS
 ```
@@ -57,6 +62,6 @@ export JAVA_OPTS
 
 
 ::: warning 其他小问题
-重新通过 idea 往 remote Tomcat 部署项目的时候可能会提示 upload file permission denied，这是因为 tomcat 文件夹权限的原因，对于 linux 权限不是很了解，直接 `sudo chmod 777 -R ./tomcat9` 赋了 777 权限（**很不推荐**）
-关闭 Tomcat `sudo ./shutup.sh` 如果执行失败，可以尝试直接杀死 Tomcat 进程 `sudo pkill -9 -f tomcat`
+- 重新通过 idea 往 remote Tomcat 部署项目的时候可能会提示 upload file permission denied，这是因为 tomcat 文件夹权限的原因，对于 linux 权限不是很了解，直接 `sudo chmod 777 -R ./tomcat9` 赋了 777 权限（**很不推荐**）
+- 关闭 Tomcat `sudo ./shutup.sh` 如果执行失败，可以尝试直接杀死 Tomcat 进程 `sudo pkill -9 -f tomcat`
 :::
