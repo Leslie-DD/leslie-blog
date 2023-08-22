@@ -12,12 +12,12 @@ comment: false
 
 ## 一、Ubuntu 18.04
 
-### 下载deb包
+### 1. 下载deb包
 
-1. 登入 mysql 官网，在官网中下载 deb 包，点击该链接，即可下载。
+(1) 登入 mysql 官网，在官网中下载 deb 包，点击该链接，即可下载。
 [下载deb包](https://dev.mysql.com/downloads/repo/apt/)
 
-2. 下载该 deb 文件后，FTP上传到对应文件夹后 进入该文件夹，执行：`sudo dpkg -i 该deb文件名`
+(2) 下载该 deb 文件后，FTP上传到对应文件夹后 进入该文件夹，执行：`sudo dpkg -i 该deb文件名`
 
 ```bash
 sudo dpkg -i mysql-apt-config_0.8.13-1_all.deb
@@ -27,50 +27,107 @@ sudo dpkg -i mysql-apt-config_0.8.13-1_all.deb
 再次方向键选择mysql-8.0 并按enter键
 方向键选择ok 并按enter键
 
-### 安装MySQL 8
-
-1. 更新apt源
+### 2. 更新apt源
 
 ```bash
 sudo apt-get update
 ```
 
-2. 正式安装MySQL 8.0
+### 3. 正式安装MySQL 8.0
 
 ```bash
 sudo apt install mysql-server
 ```
 
-3. 安装完后，会出现一个图形界面，会让你设置root密码，输入后按enter键，并再次确认。
+安装完后，会出现一个图形界面，会让你设置root密码，输入后按enter键，并再次确认。
 
-4. MySQL8.0 采用了新的加密方式，与 Ubuntu18.04 有兼容问题，故选择下面的旧版本5.x的加密方式。
+MySQL8.0 采用了新的加密方式，与 Ubuntu18.04 有兼容问题，故选择下面的旧版本5.x的加密方式。
 
-### 登录MySQL
+### 4. 登录MySQL，查看当前的用户
 
-1.登录MySQL，查看当前的用户
-
-```bash
+```
 mysql -u root -p密码
-mysql> use mysql;
-mysql> select host, user, authentication_string, plugin from user;
 ```
 
-2. 设置远程连接
-
-```bash
-mysql> update user set host = '%' where user ='root';
+```sh
+use mysql;
 ```
-3. 修改密码，注意密码格式，mysql8.0以上密码策略限制必须要大小写加数字特殊符号
-```bash
-mysql> alter user'root'@'%' IDENTIFIED BY 'KJHKdfsdf@98798';
-mysql> flush privileges;
-```
-这样就可以远程连接了
 
-4. 启动/停止mysql**
-```bash
-sudo service mysql stop
-sudo service mysql start
+```sh
+select host, user, authentication_string, plugin from user;
+```
+
+### 5. 设置远程连接并修改 root 用户名为 remote-leslie，修改密码
+
+```
+update user set host = '%' where user ='root';
+update user set user = 'remote-leslie' where user = 'root'
+
+修改密码，注意密码格式，mysql8.0以上密码策略限制必须要大小写加数字特殊符号
+
+alter user'remote-leslie'@'%' IDENTIFIED BY 'KJHKdfsdf@98798';
+flush privileges;
+```
+
+### 6. 创建数据库 testdatabase
+
+```sh
+create database testdatabase;
+```
+
+### 7. 创建新用户 testuser
+
+```sh
+CREATE USER 'testuser'@'%' IDENTIFIED BY 'testuser-password';
+```
+
+### 8. 授予用户 testuser 在 testdatabase 数据库 所有权限 
+
+```sh
+grant all privileges on testdatabase.* to testuser@'%';
+flush privileges;
+```
+
+<br/>
+
+## 导出/导入数据库
+
+### 1. 导出整个数据库
+
+mysqldump -u用户名 -p密码 数据库名 > 导出的文件名
+
+```
+mysqldump -uroot -pmysql sva_rec > ~/wcnc_db.sql
+```
+
+### 2. 导出一个表，包括表结构和数据
+
+mysqldump -u用户名 -p 密码 数据库名 表名> 导出的文件名
+
+```
+ mysqldump -uroot -pmysql sva_rec date_rec_drv> ~/wcnc_db.sql
+```
+
+### 3. 导出一个数据库结构
+
+```
+mysqldump -uroot -pmysql -d sva_rec > ~/wcnc_db.sql
+```
+
+### 4. 导出一个表，只有表结构
+
+mysqldump -u用户名 -p 密码 -d数据库名 表名> 导出的文件名
+
+```
+mysqldump -uroot -pmysql -d sva_rec date_rec_drv> ~/wcnc_db.sql
+```
+
+### 5. 导入数据库
+
+```
+mysql -u root -p
+mysql>use 数据库
+mysql>source ~/wcnc_db.sql
 ```
 
 ## 二、CentOS 8
