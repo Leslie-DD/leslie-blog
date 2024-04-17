@@ -96,12 +96,6 @@ export const zhSidebar = sidebar({
           link: "/tutorial/git_github_tips.md",
         },
         {
-          text: "📦 Vuepress",
-          link: '/tutorial/vuepress',
-          prefix: 'vuepress/',
-          collapsable: true,
-        },
-        {
           text: "💱 Regex",
           link: "/tutorial/regex.md",
         }
@@ -211,6 +205,19 @@ export const zhSidebar = sidebar({
         {
           text: '张国荣与程蝶衣',
           link: '/notes/张国荣与程蝶衣.md'
+        },
+      ]
+    }
+  ],
+
+  '/site/': [
+    {
+      text: '🖋 关于本项目',
+      link: '/site/',
+      children: [
+        {
+          text: '启动项目与部署',
+          link: '/site/start_project_and_deploy.md'
         },
       ]
     }

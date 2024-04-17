@@ -40,10 +40,6 @@ export const zhNavbar = navbar([
         link: 'git_github_tips.md' 
       },
       {
-        text: 'Vuepress',
-        link: 'vuepress'
-      },
-      {
         text: 'Regex',
         link: "regex"
       },
@@ -91,6 +87,11 @@ export const zhNavbar = navbar([
   {
     text: '读书笔记',
     link: '/notes/',
-  }
+  },
+
+  {
+    text: '站点配置',
+    link: '/site/',
+  },
   
 ]);

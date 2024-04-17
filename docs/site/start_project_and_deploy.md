@@ -1,8 +1,8 @@
 ---
 editLink: false
 comment: false
-title: 项目部署踩坑文档
-date: 2022-07-01
+title: 启动项目与部署
+date: 2024-04-17
 ---
 
 ## 一、准备运行环境
