@@ -2,4 +2,4 @@
 User-agent:*
 Disallow:
 
-Sitemap: https://github.com/Leslie-DD/leslie-blog/leslie-blog/sitemap.xml
+Sitemap: https://leslie-dd.github.io/leslie-blog/leslie-blog/sitemap.xml
