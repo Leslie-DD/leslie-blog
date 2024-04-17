@@ -21,7 +21,10 @@ date: 2024-04-17
  ### 1. 解决方法
  
  ```bash
+ # Deprecated
  npm i vuepress@next vuepress-theme-hope@next && npm install && npm update
+
+npm i -D @vuepress/bundler-vite@next && npm install && npm update
  ```
  ```bash
  yarn docs:dev

@@ -1,7 +1,15 @@
+
+
+import { viteBundler } from '@vuepress/bundler-vite'
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 
 export default defineUserConfig({
+  bundler: viteBundler({
+    viteOptions: {},
+    vuePluginOptions: {},
+  }),
+
   base: "/leslie-blog/",
 
   lang: "zh-CN",

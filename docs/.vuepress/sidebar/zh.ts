@@ -31,66 +31,87 @@ export const zhSidebar = sidebar({
       children: [
         {
           text: "🖥 Linux",
-          link: '/tutorial/linux',
-          prefix: 'linux/',
+          link: '/tutorial/linux/',
           collapsable: true,
           children: [
-            "配置JDK和Tomcat.md",
-            "安装MySQL8.md",
-            "增大swap空间.md",
+            {
+              text: '配置JDK和Tomcat',
+              link: '/tutorial/linux/配置JDK和Tomcat.md'
+            },
+            {
+              text: '安装MySQL8',
+              link: '/tutorial/linux/安装MySQL8.md'
+            },
+            {
+              text: '增大swap空间',
+              link: '/tutorial/linux/增大swap空间.md'
+            },
             {
               text: "💽 Ubuntu",
-              // link: '/tutorial/linux/ubuntu', // 写了link标签就要在该路径下新建README.md文件，不然点击这一栏会404
-              prefix: 'ubuntu/',
+              link: '/tutorial/linux/ubuntu/', // 写了link标签就要在该路径下新建README.md文件，不然点击这一栏会404
               collapsable: true,
               children: [
-                "装机初始化.md",
-                "刷机问题.md",
-                "开机自动发送邮件.md",
+                {
+                  text: '装机初始化',
+                  link: '/tutorial/linux/ubuntu/装机初始化.md'
+                },
+                {
+                  text: '刷机问题',
+                  link: '/tutorial/linux/ubuntu/刷机问题.md'
+                },
+                {
+                  text: '开机自动发送邮件',
+                  link: '/tutorial/linux/ubuntu/开机自动发送邮件.md'
+                },
               ]
             }
           ],
         },
         {
           text: "💻 Mac",
-          link: '/tutorial/mac',
-          prefix: 'mac/',
+          link: '/tutorial/mac/',
           collapsable: true,
           children: [
-            "MacOS终端配置.md",
+            {
+              text: '配置JDK和Tomcat',
+              link: '/tutorial/mac/MacOS终端配置.md'
+            },
           ]
         },
         {
           text: "📱 Android",
-          link: '/tutorial/android',
-          prefix: 'android/',
+          link: '/tutorial/android/',
           collapsable: true,
           children: [
-            "adb卸载app失败.md",
-            "Mac下adb命令无法执行.md",
+            {
+              text: 'adb卸载app失败',
+              link: '/tutorial/android/adb卸载app失败.md'
+            },
+            {
+              text: 'Mac下adb命令无法执行',
+              link: '/tutorial/android/Mac下adb命令无法执行.md'
+            },
           ]
         },
         {
           text: "📡 Server",
-          link: '/tutorial/server',
-          prefix: 'server/',
+          link: '/tutorial/server/',
           collapsable: true,
           children: [
             {
               text: "Idea部署远程Tomcat",
-              link: "IdeaRemoteDeploy.md",
+              link: "/tutorial/server/IdeaRemoteDeploy.md",
             },
             {
               text: "Tomcat Docker镜像",
-              link: "BuildDocker.md",
+              link: "/tutorial/server/BuildDocker.md",
             },
             {
               text: "Idea部署远程Docker Tomcat",
-              link: "IdeaRemoteDockerDeploy.md"
+              link: "/tutorial/server/IdeaRemoteDockerDeploy.md"
             }
           ]
         },
-        // "/tutorial/git_github_tips.md",
         {
           text: "🌿 Git & Github",
           link: "/tutorial/git_github_tips.md",
@@ -105,30 +126,34 @@ export const zhSidebar = sidebar({
   '/blog/': [
     {
       text: '技术博客',
-      link: '/blog/',
+      // link: '/blog/',
       // collapsable: true,
       children: [
         {
           text: '📱 Android',
-          // link: '/blog/android',
+          link: '/blog/android/',
           collapsable: true,
-          prefix: 'android/',
           children: [
-            'drawtext解析.md',
-          ]
+            {
+              text: 'Canvas.drawText解析',
+              link: '/blog/android/drawText解析.md'
+            }
+          ],
         },
         {
           text: '💻 计算机基础',
-          link: '/blog/computer',
+          link: '/blog/computer/',
           collapsable: true,
-          prefix: 'computer/',
           children: [
-            '计算机中的Float是怎么存储的.md',
-          ]
+            {
+              text: '计算机中的Float是怎么存储的',
+              link: '/blog/computer/计算机中的Float是怎么存储的.md'
+            }
+          ],
         },
         {
           text: '🖨 后端',
-          link: '/blog/server',
+          link: '/blog/server/',
           collapsable: true,
           children: [
             {
@@ -139,7 +164,7 @@ export const zhSidebar = sidebar({
         },
         {
           text: '💾 数据库',
-          link: '/blog/databases',
+          link: '/blog/databases/',
           collapsable: true,
           children: [
             {
@@ -150,7 +175,7 @@ export const zhSidebar = sidebar({
         },
         {
           text: '🔧 Python',
-          link: '/blog/python',
+          link: '/blog/python/',
           collapsable: true,
           children: [
             {
@@ -161,6 +186,17 @@ export const zhSidebar = sidebar({
               text: '批量执行命令',
               link: '/blog/python/批量执行命令.md'
             }
+          ]
+        },
+        {
+          text: '🔧 Java',
+          link: '/blog/java/',
+          collapsable: true,
+          children: [
+            {
+              text: 'Java 异常',
+              link: '/blog/java/JavaException.md'
+            },
           ]
         },
       ],

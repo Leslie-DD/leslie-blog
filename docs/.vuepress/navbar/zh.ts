@@ -21,19 +21,19 @@ export const zhNavbar = navbar([
     children: [
       {
         text: 'Linux',
-        link: 'linux',
+        link: 'linux/',
       },
       {
         text: 'Mac',
-        link: 'mac'
+        link: 'mac/'
       },
       {
         text: 'Android',
-        link: 'android'
+        link: 'android/'
       },
       {
         text: 'Server',
-        link: 'server'
+        link: 'server/'
       },
       { 
         text: 'Git & GitHub', 
@@ -41,7 +41,7 @@ export const zhNavbar = navbar([
       },
       {
         text: 'Regex',
-        link: "regex"
+        link: "regex.md"
       },
     ],
   },
@@ -52,23 +52,27 @@ export const zhNavbar = navbar([
     children: [
       {
         text: 'Android',
-        link: 'android',
+        link: 'android/',
       },
       {
         text: '计算机基础',
-        link: 'computer',
+        link: 'computer/',
       },
       {
         text: '后端',
-        link: 'server',
+        link: 'server/',
       },
       { 
         text: '数据库',
-        link: 'databases' 
+        link: 'databases/' 
       },
       { 
         text: 'Python',
-        link: 'python' 
+        link: 'python/' 
+      },
+      { 
+        text: 'Java',
+        link: 'java/' 
       },
     ],
   },
