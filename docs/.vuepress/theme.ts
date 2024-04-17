@@ -3,7 +3,7 @@ import { zhNavbar } from "./navbar/index.js";
 import { zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
-  hostname: "https://github.com/Leslie-DD/leslie-blog",
+  hostname: "https://leslie-dd.github.io/leslie-blog",
 
   author: {
     name: "Leslie",
