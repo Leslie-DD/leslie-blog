@@ -220,6 +220,14 @@ export const zhSidebar = sidebar({
               text: '树',
               link: '/blog/datastructure/tree.md'
             },
+            {
+              text: 'B 树',
+              link: '/blog/datastructure/b-tree.md'
+            },
+            {
+              text: 'B+ 树',
+              link: '/blog/datastructure/bplus-tree.md'
+            },
           ]
         },
       ],
