@@ -15,10 +15,22 @@ export const zhSidebar = sidebar({
   "/about/": [
     {
       text: "About",
+      // link: "/about/",
       children: [
         {
           text: "简介",
-          link: "/about/README.md",
+          link: "/about/me/self_intro.md",
+        },
+        {
+          text: "站点介绍",
+          link: "/about/site/",
+          collapsable: true,
+          children: [
+            {
+              text: '启动项目与部署',
+              link: '/about/site/start_project_and_deploy.md'
+            },
+          ]
         }
       ],
     },
@@ -26,7 +38,7 @@ export const zhSidebar = sidebar({
 
   '/tutorial/': [
     {
-      text: "踩坑记录",
+      text: "教程",
       link: "/tutorial/",
       children: [
         {
@@ -245,17 +257,4 @@ export const zhSidebar = sidebar({
       ]
     }
   ],
-
-  '/site/': [
-    {
-      text: '🖋 关于本项目',
-      link: '/site/',
-      children: [
-        {
-          text: '启动项目与部署',
-          link: '/site/start_project_and_deploy.md'
-        },
-      ]
-    }
-  ]
 });

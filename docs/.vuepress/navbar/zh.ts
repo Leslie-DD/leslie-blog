@@ -6,17 +6,21 @@ export const zhNavbar = navbar([
   // { text: "使用指南", icon: "family", link: "/demo/" },
   {
     text: "关于",
-    prefix: '/',
+    prefix: '/about/',
     children: [
       {
         text: "About Me",
-        link: "intro.md",
+        link: "me/self_intro.md",
+      },
+      {
+        text: "About this site",
+        link: "site/",
       },
     ],
   },
 
   {
-    text: '踩坑记录',
+    text: '教程',
     prefix: '/tutorial/',
     children: [
       {
@@ -91,11 +95,6 @@ export const zhNavbar = navbar([
   {
     text: '读书笔记',
     link: '/notes/',
-  },
-
-  {
-    text: '站点配置',
-    link: '/site/',
   },
   
 ]);

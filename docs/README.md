@@ -2,7 +2,7 @@
 home: true
 layout: Blog
 icon: home
-title: HomePage
+title: 主页
 bgImage: /images/WechatIMG344272.jpg
 heroImage: /images/logo.jpg
 heroText: Leslie's Blog
