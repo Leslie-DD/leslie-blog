@@ -186,7 +186,7 @@ export const zhSidebar = sidebar({
           ]
         },
         {
-          text: '🔧 Python',
+          text: 'Python',
           link: '/blog/python/',
           collapsable: true,
           children: [
@@ -201,13 +201,24 @@ export const zhSidebar = sidebar({
           ]
         },
         {
-          text: '🔧 Java',
+          text: 'Java',
           link: '/blog/java/',
           collapsable: true,
           children: [
             {
               text: 'Java 异常',
               link: '/blog/java/JavaException.md'
+            },
+          ]
+        },
+        {
+          text: '数据结构与算法',
+          link: '/blog/datastructure/',
+          collapsable: true,
+          children: [
+            {
+              text: '树',
+              link: '/blog/datastructure/tree.md'
             },
           ]
         },

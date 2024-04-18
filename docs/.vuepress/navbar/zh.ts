@@ -78,6 +78,10 @@ export const zhNavbar = navbar([
         text: 'Java',
         link: 'java/' 
       },
+      { 
+        text: '数据结构与算法',
+        link: 'datastructure/' 
+      },
     ],
   },
 
