@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-rc.9" />
+    <meta name="theme" content="VuePress Theme Hope 2.0.0-rc.36" />
+    <style>
+      html {
+        background: var(--bg-color, #fff);
+      }
+
+      html[data-theme="dark"] {
+        background: var(--bg-color, #1d1e1f);
+      }
+
+      body {
+        background: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    </script>
+    <meta property="og:url" content="https://leslie-dd.github.io/leslie-blog/leslie-blog/blog/datastructure/bplus-tree.html"><meta property="og:site_name" content="Leslie的博客"><meta property="og:title" content="B+树"><meta property="og:description" content="转载自 https://oi-wiki.org/ds/bplus-tree/ 引入 B+ 树是 的一个升级，它比 B 树更适合实际应用中操作系统的文件索引和数据库索引。目前现代关系型数据库最广泛的支持索引结构就是 B+ 树。 B+ 树是一种多叉排序树，即每个节点通常有多个孩子。一棵 B+ 树包含根节点、内部节点和叶子节点。根节点可能是一个叶子节点，也可..."><meta property="og:type" content="article"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2024-04-18T10:53:20.000Z"><meta property="article:author" content="Persdre"><meta property="article:published_time" content="2024-04-18T00:00:00.000Z"><meta property="article:modified_time" content="2024-04-18T10:53:20.000Z"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"B+树","image":[""],"datePublished":"2024-04-18T00:00:00.000Z","dateModified":"2024-04-18T10:53:20.000Z","author":[{"@type":"Person","name":"Persdre"}]}</script><script src="/js/base.js"></script><title>B+树 | Leslie的博客</title><meta name="description" content="转载自 https://oi-wiki.org/ds/bplus-tree/ 引入 B+ 树是 的一个升级，它比 B 树更适合实际应用中操作系统的文件索引和数据库索引。目前现代关系型数据库最广泛的支持索引结构就是 B+ 树。 B+ 树是一种多叉排序树，即每个节点通常有多个孩子。一棵 B+ 树包含根节点、内部节点和叶子节点。根节点可能是一个叶子节点，也可...">
+    <link rel="preload" href="/leslie-blog/assets/style-MnOn1W1r.css" as="style"><link rel="stylesheet" href="/leslie-blog/assets/style-MnOn1W1r.css">
+    <link rel="modulepreload" href="/leslie-blog/assets/app-BEROnbsp.js"><link rel="modulepreload" href="/leslie-blog/assets/bplus-tree.html-CdRgnuQc.js"><link rel="modulepreload" href="/leslie-blog/assets/plugin-vue_export-helper-DlAUqK2U.js">
+    
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="vp-skip-link sr-only">跳至主要內容</a><!--]--><div class="theme-container has-toc"><!--[--><header id="navbar" class="vp-navbar"><div class="vp-navbar-start"><button type="button" class="vp-toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><!--[--><!----><!--]--><!--[--><a class="route-link vp-brand" href="/leslie-blog/"><img class="vp-nav-logo" src="/leslie-blog/images/logo.png" alt><!----><span class="vp-site-name hide-in-pad">Leslie的博客</span></a><!--]--><!--[--><!----><!--]--></div><div class="vp-navbar-center"><!--[--><!----><!--]--><!--[--><nav class="vp-nav-links"><div class="vp-nav-item hide-in-mobile"><a class="route-link nav-link" href="/leslie-blog/" aria-label="主页"><span class="font-icon icon home" style=""></span>主页<!----></a></div><div class="vp-nav-item hide-in-mobile"><div class="dropdown-wrapper"><button type="button" class="dropdown-title" aria-label="关于"><span class="title"><!---->关于</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/about/me/self_intro.html" aria-label="About Me"><!---->About Me<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/about/site/" aria-label="About this site"><!---->About this site<!----></a></li></ul></button></div></div><div class="vp-nav-item hide-in-mobile"><div class="dropdown-wrapper"><button type="button" class="dropdown-title" aria-label="教程"><span class="title"><!---->教程</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/tutorial/linux/" aria-label="Linux"><!---->Linux<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/tutorial/mac/" aria-label="Mac"><!---->Mac<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/tutorial/android/" aria-label="Android"><!---->Android<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/tutorial/server/" aria-label="Server"><!---->Server<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/tutorial/git_github_tips.html" aria-label="Git &amp; GitHub"><!---->Git &amp; GitHub<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/tutorial/regex.html" aria-label="Regex"><!---->Regex<!----></a></li></ul></button></div></div><div class="vp-nav-item hide-in-mobile"><div class="dropdown-wrapper"><button type="button" class="dropdown-title" aria-label="技术博客"><span class="title"><!---->技术博客</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/blog/android/" aria-label="Android"><!---->Android<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/blog/computer/" aria-label="计算机基础"><!---->计算机基础<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/blog/server/" aria-label="后端"><!---->后端<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/blog/databases/" aria-label="数据库"><!---->数据库<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/blog/python/" aria-label="Python"><!---->Python<!----></a></li><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/blog/java/" aria-label="Java"><!---->Java<!----></a></li><li class="dropdown-item"><a class="route-link nav-link active" href="/leslie-blog/blog/datastructure/" aria-label="数据结构与算法"><!---->数据结构与算法<!----></a></li></ul></button></div></div><div class="vp-nav-item hide-in-mobile"><div class="dropdown-wrapper"><button type="button" class="dropdown-title" aria-label="项目"><span class="title"><!---->项目</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a class="route-link nav-link" href="/leslie-blog/projects/reading/" aria-label="Reading"><!---->Reading<!----></a></li></ul></button></div></div><div class="vp-nav-item hide-in-mobile"><a class="route-link nav-link" href="/leslie-blog/notes/" aria-label="读书笔记"><!---->读书笔记<!----></a></div></nav><!--]--><!--[--><!----><!--]--></div><div class="vp-navbar-end"><!--[--><!----><!--]--><!--[--><!----><div class="vp-nav-item vp-action"><a class="vp-action-link" href="https://github.com/Leslie-DD/leslie-blog" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="github icon" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></svg></a></div><div class="vp-nav-item hide-in-mobile"><button type="button" id="appearance-switch"><svg xmlns="http://www.w3.org/2000/svg" class="icon auto-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="auto icon" style="display:block;"><path d="M512 992C246.92 992 32 777.08 32 512S246.92 32 512 32s480 214.92 480 480-214.92 480-480 480zm0-840c-198.78 0-360 161.22-360 360 0 198.84 161.22 360 360 360s360-161.16 360-360c0-198.78-161.22-360-360-360zm0 660V212c165.72 0 300 134.34 300 300 0 165.72-134.28 300-300 300z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="dark icon" style="display:none;"><path d="M524.8 938.667h-4.267a439.893 439.893 0 0 1-313.173-134.4 446.293 446.293 0 0 1-11.093-597.334A432.213 432.213 0 0 1 366.933 90.027a42.667 42.667 0 0 1 45.227 9.386 42.667 42.667 0 0 1 10.24 42.667 358.4 358.4 0 0 0 82.773 375.893 361.387 361.387 0 0 0 376.747 82.774 42.667 42.667 0 0 1 54.187 55.04 433.493 433.493 0 0 1-99.84 154.88 438.613 438.613 0 0 1-311.467 128z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="light icon" style="display:none;"><path d="M952 552h-80a40 40 0 0 1 0-80h80a40 40 0 0 1 0 80zM801.88 280.08a41 41 0 0 1-57.96-57.96l57.96-58a41.04 41.04 0 0 1 58 58l-58 57.96zM512 752a240 240 0 1 1 0-480 240 240 0 0 1 0 480zm0-560a40 40 0 0 1-40-40V72a40 40 0 0 1 80 0v80a40 40 0 0 1-40 40zm-289.88 88.08-58-57.96a41.04 41.04 0 0 1 58-58l57.96 58a41 41 0 0 1-57.96 57.96zM192 512a40 40 0 0 1-40 40H72a40 40 0 0 1 0-80h80a40 40 0 0 1 40 40zm30.12 231.92a41 41 0 0 1 57.96 57.96l-57.96 58a41.04 41.04 0 0 1-58-58l58-57.96zM512 832a40 40 0 0 1 40 40v80a40 40 0 0 1-80 0v-80a40 40 0 0 1 40-40zm289.88-88.08 58 57.96a41.04 41.04 0 0 1-58 58l-57.96-58a41 41 0 0 1 57.96-57.96z"></path></svg></button></div><!----><!--]--><!--[--><!----><!--]--><button type="button" class="vp-toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span></button></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow start"></span></div><aside id="sidebar" class="vp-sidebar"><!--[--><!----><!--]--><ul class="vp-sidebar-links"><li><section class="vp-sidebar-group"><p class="vp-sidebar-header active"><!----><span class="vp-sidebar-title">技术博客</span><!----></p><ul class="vp-sidebar-links"><li><section class="vp-sidebar-group"><button class="vp-sidebar-header clickable" type="button"><!----><a class="route-link nav-link vp-sidebar-title" href="/leslie-blog/blog/android/" aria-label="📱 Android"><!---->📱 Android<!----></a><span class="vp-arrow end"></span></button><!----></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-header clickable" type="button"><!----><a class="route-link nav-link vp-sidebar-title" href="/leslie-blog/blog/computer/" aria-label="💻 计算机基础"><!---->💻 计算机基础<!----></a><span class="vp-arrow end"></span></button><!----></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-header clickable" type="button"><!----><a class="route-link nav-link vp-sidebar-title" href="/leslie-blog/blog/server/" aria-label="🖨 后端"><!---->🖨 后端<!----></a><span class="vp-arrow end"></span></button><!----></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-header clickable" type="button"><!----><a class="route-link nav-link vp-sidebar-title" href="/leslie-blog/blog/databases/" aria-label="💾 数据库"><!---->💾 数据库<!----></a><span class="vp-arrow end"></span></button><!----></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-header clickable" type="button"><!----><a class="route-link nav-link vp-sidebar-title" href="/leslie-blog/blog/python/" aria-label="Python"><!---->Python<!----></a><span class="vp-arrow end"></span></button><!----></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-header clickable" type="button"><!----><a class="route-link nav-link vp-sidebar-title" href="/leslie-blog/blog/java/" aria-label="Java"><!---->Java<!----></a><span class="vp-arrow end"></span></button><!----></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-header clickable active" type="button"><!----><a class="route-link nav-link active vp-sidebar-title" href="/leslie-blog/blog/datastructure/" aria-label="数据结构与算法"><!---->数据结构与算法<!----></a><span class="vp-arrow down"></span></button><ul class="vp-sidebar-links"><li><a class="route-link nav-link vp-sidebar-link vp-sidebar-page" href="/leslie-blog/blog/datastructure/tree.html" aria-label="树"><!---->树<!----></a></li><li><a class="route-link nav-link vp-sidebar-link vp-sidebar-page" href="/leslie-blog/blog/datastructure/b-tree.html" aria-label="B 树"><!---->B 树<!----></a></li><li><a class="route-link nav-link active vp-sidebar-link vp-sidebar-page active" href="/leslie-blog/blog/datastructure/bplus-tree.html" aria-label="B+ 树"><!---->B+ 树<!----></a></li></ul></section></li></ul></section></li></ul><!--[--><!----><!--]--></aside><!--[--><main id="main-content" class="vp-page"><!--[--><!--[--><!----><!--]--><!----><nav class="vp-breadcrumb disable"></nav><div class="vp-page-title"><h1><!---->B+树</h1><div class="page-info"><span class="page-author-info" aria-label="作者🖊" data-balloon-pos="up"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="author icon"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></svg><span><span class="page-author-item">Persdre</span></span><span property="author" content="Persdre"></span></span><!----><span class="page-date-info" aria-label="写作日期📅" data-balloon-pos="up"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="calendar icon"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></svg><span><!----></span><meta property="datePublished" content="2024-04-18T00:00:00.000Z"></span><!----><!----><span class="page-reading-time-info" aria-label="阅读时间⌛" data-balloon-pos="up"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="timer icon"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></svg><span>大约 14 分钟</span><meta property="timeRequired" content="PT14M"></span></div><hr></div><div class="vp-toc-placeholder"><aside id="toc"><!--[--><!----><!--]--><div class="vp-toc-header">此页内容<button type="button" class="print-button" title="打印"><svg xmlns="http://www.w3.org/2000/svg" class="icon print-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="print icon"><path d="M819.2 364.8h-44.8V128c0-17.067-14.933-32-32-32H281.6c-17.067 0-32 14.933-32 32v236.8h-44.8C145.067 364.8 96 413.867 96 473.6v192c0 59.733 49.067 108.8 108.8 108.8h44.8V896c0 17.067 14.933 32 32 32h460.8c17.067 0 32-14.933 32-32V774.4h44.8c59.733 0 108.8-49.067 108.8-108.8v-192c0-59.733-49.067-108.8-108.8-108.8zM313.6 160h396.8v204.8H313.6V160zm396.8 704H313.6V620.8h396.8V864zM864 665.6c0 25.6-19.2 44.8-44.8 44.8h-44.8V588.8c0-17.067-14.933-32-32-32H281.6c-17.067 0-32 14.933-32 32v121.6h-44.8c-25.6 0-44.8-19.2-44.8-44.8v-192c0-25.6 19.2-44.8 44.8-44.8h614.4c25.6 0 44.8 19.2 44.8 44.8v192z"></path></svg></button><div class="arrow end"></div></div><div class="vp-toc-wrapper"><ul class="vp-toc-list"><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level2" href="#引入">引入</a></li><!----><!--]--><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level2" href="#b-树相比于-b-树的优势">B+ 树相比于 B 树的优势</a></li><!----><!--]--><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level2" href="#过程">过程</a></li><li><ul class="vp-toc-list"><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level3" href="#查找">查找</a></li><!----><!--]--><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level3" href="#遍历">遍历</a></li><!----><!--]--><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level3" href="#插入">插入</a></li><!----><!--]--><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level3" href="#删除">删除</a></li><!----><!--]--></ul></li><!--]--><!--[--><li class="vp-toc-item"><a class="route-link vp-toc-link level2" href="#参考资料">参考资料</a></li><!----><!--]--></ul><div class="vp-toc-marker" style="top:-1.7rem;"></div></div><!--[--><!----><!--]--></aside></div><!--[--><!----><!--]--><div class="theme-hope-content"><div class="hint-container info"><p class="hint-container-title">转载自</p><p><a href="https://oi-wiki.org/ds/bplus-tree/" target="_blank" rel="noopener noreferrer">https://oi-wiki.org/ds/bplus-tree/<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></p></div><h2 id="引入" tabindex="-1"><a class="header-anchor" href="#引入"><span>引入</span></a></h2><p>B+ 树是 <a class="route-link" href="/leslie-blog/blog/datastructure/b-tree.html">B 树</a> 的一个升级，它比 B 树更适合实际应用中操作系统的文件索引和数据库索引。目前现代关系型数据库最广泛的支持索引结构就是 B+ 树。</p><p>B+ 树是一种多叉排序树，即每个节点通常有多个孩子。一棵 B+ 树包含根节点、内部节点和叶子节点。根节点可能是一个叶子节点，也可能是一个包含两个或两个以上孩子节点的节点。</p><p>B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。</p><p>首先介绍一棵 $m$ 阶 B+ 树的特性。$m$ 表示这个树的每一个节点最多可以拥有的子节点个数。一棵 $m$ 阶的 B+ 树和 B 树的差异在于：</p><ol><li>有 $n$ 棵子树的节点中含有 $n-1$ 个关键字（即将区间分为 $n$ 个子区间，每个子区间对应一棵子树）。</li><li>所有叶子节点中包含了全部关键字的信息，及指向含这些关键字记录的指针，且叶子节点本身依关键字的大小自小而大顺序链接。</li><li>所有的非叶子节点可以看成是索引部分，节点中仅含有其子树（根节点）中的最大（或最小）关键字。</li><li>除根节点外，其他所有节点中所含关键字的个数最少有 $\lceil \dfrac{m}{2} \rceil$（注意：B 树中除根以外的所有非叶子节点至少有 $\lceil \dfrac{m}{2} \rceil$ 棵子树）。</li></ol><p>同时，B+ 树为了方便范围查询，叶子节点之间还用指针串联起来。</p><p>以下是一棵 B+ 树的典型结构：</p><p><img src="/leslie-blog/assets/bplus-tree-1-Cbm_FUBt.png" alt=""></p><h2 id="b-树相比于-b-树的优势" tabindex="-1"><a class="header-anchor" href="#b-树相比于-b-树的优势"><span>B+ 树相比于 B 树的优势</span></a></h2><p>由于索引节点上只有索引而没有数据，所以索引节点上能存储比 B 树更多的索引，这样树的高度就会更矮。树的高度越矮，磁盘寻道的次数就会越少。</p><p>因为数据都集中在叶子节点，而所有叶子节点的高度相同，那么可以在叶子节点中增加前后指针，指向同一个父节点的相邻兄弟节点，这样可以更好地支持查询一个值的前驱或后继，使连续访问更容易实现。</p><p>比如这样的 SQL 语句：<code>select * from tbl where t &gt; 10</code>，如果使用 B+ 树存储数据的话，可以首先定位到数据为 10 的节点，再沿着它的 <code>next</code> 指针一路找到所有在该叶子节点右边的叶子节点，返回这些节点包含的数据。</p><p>而如果使用 B 树结构，由于数据既可以存储在内部节点也可以存储在叶子节点，连续访问的实现会更加繁琐（需要在树的内部结构中进行移动）。</p><h2 id="过程" tabindex="-1"><a class="header-anchor" href="#过程"><span>过程</span></a></h2><p>与 <a class="route-link" href="/leslie-blog/blog/datastructure/b-tree.html">B 树</a> 类似，B+ 树的基本操作有查找，遍历，插入，删除。</p><h3 id="查找" tabindex="-1"><a class="header-anchor" href="#查找"><span>查找</span></a></h3><p>B+ 树的查找过程和 B 树类似。假设需要查找的键值是 $k$，那么从根节点开始，从上到下递归地遍历树。在每一层上，搜索的范围被减小到包含搜索值的子树中。</p><p>一个实例：在如下这棵 B+ 树上查找 45。</p><p><img src="/leslie-blog/assets/bplus-tree-2-BY7ZlvZg.webp" alt=""></p><p>先和根节点比较</p><p><img src="/leslie-blog/assets/bplus-tree-3-CKVKfbgg.webp" alt=""></p><p>因为根节点的键值比 45 要小，所以去往根节点的右子树查找</p><p><img src="/leslie-blog/assets/bplus-tree-4-YDxknuGM.webp" alt=""></p><p>因为 45 比 35 大，所以要与右边的索引相比</p><p><img src="/leslie-blog/assets/bplus-tree-5-Cx54WzJh.webp" alt=""></p><p>右侧的索引也为 45，所以要去往该节点的右子树继续查找</p><p><img src="/leslie-blog/assets/bplus-tree-6-BVBsuIRu.webp" alt=""></p><p>然后就可以找到 45</p><p>需要注意的是，在查找时，若非叶子节点上的关键字等于给定值，并不终止，而是继续向下直到叶子节点。因此，在 B+ 树中，不管查找成功与否，每次查找都是走了一条从根到叶子节点的路径。其余同 B 树的查找类似。</p><p>查找一个键的代码如下：</p><div class="hint-container info"><p class="hint-container-title">实现</p><div class="language-c++ line-numbers-mode" data-ext="c++" data-title="c++"><pre class="language-c++"><code>T find(V key) {
+  int i = 0;
+  while (i &lt; this.number) {
+    if (key.compareTo((V)this.keys[i]) &lt;= 0) break;
+    i++;
+  }
+  if (this.number == i) return null;
+  return this.childs[i].find(key);
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div><h3 id="遍历" tabindex="-1"><a class="header-anchor" href="#遍历"><span>遍历</span></a></h3><p>B+ 树只在叶子节点的层级上就可以实现整棵树的遍历。从根节点出发一路搜索到最左端的叶子节点之后即可根据指针遍历。</p><h3 id="插入" tabindex="-1"><a class="header-anchor" href="#插入"><span>插入</span></a></h3><p>B+ 树的插入算法与 B 树的相近：</p><ol><li>若为空树，创建一个叶子节点，然后将记录插入其中，此时这个叶子节点也是根节点，插入操作结束。</li><li>针对叶子类型节点：根据关键字找到叶子节点，向这个叶子节点插入记录。插入后，若当前节点关键字的个数小于 $m$，则插入结束。否则将这个叶子节点分裂成左右两个叶子节点，左叶子节点包含前 $m/2$ 个记录，右节点包含剩下的记录，将第 $m/2+1$ 个记录的关键字进位到父节点中（父节点一定是索引类型节点），进位到父节点的关键字左孩子指针向左节点，右孩子指针向右节点。将当前节点的指针指向父节点，然后执行第 3 步。</li><li>针对索引类型节点（内部节点）：若当前节点关键字的个数小于等于 $m-1$，则插入结束。否则，将这个索引类型节点分裂成两个索引节点，左索引节点包含前 $(m-1)/2$ 个 key，右节点包含 $m-(m-1)/2$ 个 key，将第 $m/2$ 个关键字进位到父节点中，进位到父节点的关键字左孩子指向左节点，进位到父节点的关键字右孩子指向右节点。将当前节点的指针指向父节点，然后重复这一步。</li></ol><p>比如在下图的 B+ 树中，插入新的数据 10：</p><p><img src="/leslie-blog/assets/bplus-tree-7-DpxIFwQp.png" alt=""></p><p>由于插入节点 $[7,11]$ 在插入之后并没有溢出，所以可以直接变成 $[7,10,11]$。</p><p><img src="/leslie-blog/assets/bplus-tree-8-INVkSXol.png" alt=""></p><p>而如下图的 B+ 树中，插入数据 4：</p><p><img src="/leslie-blog/assets/bplus-tree-9-CrsRZZGW.png" alt=""></p><p>由于所在节点 $[2,3,5]$ 在插入之后数据溢出，因此需要分裂为两个新的节点，同时调整父节点的索引数据：</p><p><img src="/leslie-blog/assets/bplus-tree-10-Chf-gHhP.png" alt=""></p><p>$[2,3,4,5]$ 分裂成了 $[2,3]$ 和 $[4,5]$，因此需要在这两个节点之间新增一个索引值，这个值应该满足：</p><ol><li>大于左子树的最大值；</li><li>小于等于右子树的最小值。</li></ol><p>综上，需要在父节点中新增索引 4 和两个指向新节点的指针。</p><p>更多的例子可以参考演示网站 <a href="https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html" target="_blank" rel="noopener noreferrer">BPlustree<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></p><p>插入一个键的代码如下：</p><div class="hint-container info"><p class="hint-container-title">实现</p><div class="language-c++ line-numbers-mode" data-ext="c++" data-title="c++"><pre class="language-c++"><code>void BPTree::insert(int x) {
+  if (root == NULL) {
+    root = new Node;
+    root-&gt;key[0] = x;
+    root-&gt;IS_LEAF = true;
+    root-&gt;size = 1;
+    root-&gt;parent = NULL;
+  } else {
+    Node* cursor = root;
+    Node* parent;
+
+    while (cursor-&gt;IS_LEAF == false) {
+      parent = cursor;
+      for (int i = 0; i &lt; cursor-&gt;size; i++) {
+        if (x &lt; cursor-&gt;key[i]) {
+          cursor = cursor-&gt;ptr[i];
+          break;
+        }
+
+        if (i == cursor-&gt;size - 1) {
+          cursor = cursor-&gt;ptr[i + 1];
+          break;
+        }
+      }
+    }
+    if (cursor-&gt;size &lt; MAX) {
+      insertVal(x, cursor);
+      cursor-&gt;parent = parent;
+      cursor-&gt;ptr[cursor-&gt;size] = cursor-&gt;ptr[cursor-&gt;size - 1];
+      cursor-&gt;ptr[cursor-&gt;size - 1] = NULL;
+    } else
+      split(x, parent, cursor);
+  }
+}
+
+void BPTree::split(int x, Node* parent, Node* cursor) {
+  Node* LLeaf = new Node;
+  Node* RLeaf = new Node;
+  insertVal(x, cursor);
+  LLeaf-&gt;IS_LEAF = RLeaf-&gt;IS_LEAF = true;
+  LLeaf-&gt;size = (MAX + 1) / 2;
+  RLeaf-&gt;size = (MAX + 1) - (MAX + 1) / 2;
+  for (int i = 0; i &lt; MAX + 1; i++) LLeaf-&gt;ptr[i] = cursor-&gt;ptr[i];
+  LLeaf-&gt;ptr[LLeaf-&gt;size] = RLeaf;
+  RLeaf-&gt;ptr[RLeaf-&gt;size] = LLeaf-&gt;ptr[MAX];
+  LLeaf-&gt;ptr[MAX] = NULL;
+  for (int i = 0; i &lt; LLeaf-&gt;size; i++) {
+    LLeaf-&gt;key[i] = cursor-&gt;key[i];
+  }
+  for (int i = 0, j = LLeaf-&gt;size; i &lt; RLeaf-&gt;size; i++, j++) {
+    RLeaf-&gt;key[i] = cursor-&gt;key[j];
+  }
+  if (cursor == root) {
+    Node* newRoot = new Node;
+    newRoot-&gt;key[0] = RLeaf-&gt;key[0];
+    newRoot-&gt;ptr[0] = LLeaf;
+    newRoot-&gt;ptr[1] = RLeaf;
+    newRoot-&gt;IS_LEAF = false;
+    newRoot-&gt;size = 1;
+    root = newRoot;
+    LLeaf-&gt;parent = RLeaf-&gt;parent = newRoot;
+  } else {
+    insertInternal(RLeaf-&gt;key[0], parent, LLeaf, RLeaf);
+  }
+}
+
+void BPTree::insertInternal(int x, Node* cursor, Node* LLeaf, Node* RRLeaf) {
+  if (cursor-&gt;size &lt; MAX) {
+    auto i = insertVal(x, cursor);
+    for (int j = cursor-&gt;size; j &gt; i + 1; j--) {
+      cursor-&gt;ptr[j] = cursor-&gt;ptr[j - 1];
+    }
+    cursor-&gt;ptr[i] = LLeaf;
+    cursor-&gt;ptr[i + 1] = RRLeaf;
+  }
+
+  else {
+    Node* newLchild = new Node;
+    Node* newRchild = new Node;
+    Node* virtualPtr[MAX + 2];
+    for (int i = 0; i &lt; MAX + 1; i++) {
+      virtualPtr[i] = cursor-&gt;ptr[i];
+    }
+    int i = insertVal(x, cursor);
+    for (int j = MAX + 2; j &gt; i + 1; j--) {
+      virtualPtr[j] = virtualPtr[j - 1];
+    }
+    virtualPtr[i] = LLeaf;
+    virtualPtr[i + 1] = RRLeaf;
+    newLchild-&gt;IS_LEAF = newRchild-&gt;IS_LEAF = false;
+    // 这里和叶子节点有区别
+    newLchild-&gt;size = (MAX + 1) / 2;
+    newRchild-&gt;size = MAX - (MAX + 1) / 2;
+    for (int i = 0; i &lt; newLchild-&gt;size; i++) {
+      newLchild-&gt;key[i] = cursor-&gt;key[i];
+    }
+    for (int i = 0, j = newLchild-&gt;size + 1; i &lt; newRchild-&gt;size; i++, j++) {
+      newRchild-&gt;key[i] = cursor-&gt;key[j];
+    }
+    for (int i = 0; i &lt; LLeaf-&gt;size + 1; i++) {
+      newLchild-&gt;ptr[i] = virtualPtr[i];
+    }
+    for (int i = 0, j = LLeaf-&gt;size + 1; i &lt; RRLeaf-&gt;size + 1; i++, j++) {
+      newRchild-&gt;ptr[i] = virtualPtr[j];
+    }
+    if (cursor == root) {
+      Node* newRoot = new Node;
+      newRoot-&gt;key[0] = cursor-&gt;key[newLchild-&gt;size];
+      newRoot-&gt;ptr[0] = newLchild;
+      newRoot-&gt;ptr[1] = newRchild;
+      newRoot-&gt;IS_LEAF = false;
+      newRoot-&gt;size = 1;
+      root = newRoot;
+      newLchild-&gt;parent = newRchild-&gt;parent = newRoot;
+    } else {
+      insertInternal(cursor-&gt;key[newLchild-&gt;size], cursor-&gt;parent, newLchild,
+                      newRchild);
+    }
+  }
+}
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div><h3 id="删除" tabindex="-1"><a class="header-anchor" href="#删除"><span>删除</span></a></h3><p>B+ 树的删除也仅在叶子节点中进行，当叶子节点中的最大关键字被删除时，其在非叶子节点中的值可以作为一个分界关键字存在。若因删除而使节点中关键字的个数少于 $\lceil \dfrac{m}{2} \rceil$ 时，其和兄弟节点的合并过程亦和 B 树类似。</p><p>具体步骤如下：</p><ol><li>首先查询到键值所在的叶子节点，删除该叶子节点的数据。</li><li>如果删除叶子节点之后的数据数量，满足 B+ 树的平衡条件，则直接返回。</li><li>否则，就需要做平衡操作：如果该叶子节点的左右兄弟节点的数据量可以借用，就借用过来满足平衡条件。否则，就与相邻的兄弟节点合并成一个新的子节点了。</li></ol><p>在上面平衡操作中，如果是进行了合并操作，就需要向上修正父节点的指针：删除被合并节点的键值以及指针。</p><p>由于做了删除操作，可能父节点也会不平衡，那么就按照前面的步骤也对父节点进行重新平衡操作，这样一直到某个节点平衡为止。</p><p>可以参考 <a class="route-link" href="/leslie-blog/blog/datastructure/b-tree.html">B 树</a> 中的删除章节。</p><div class="hint-container info"><p class="hint-container-title">实现</p><div class="language-c++ line-numbers-mode" data-ext="c++" data-title="c++"><pre class="language-c++"><code>// Deletion operation on a B+ tree in C++
+#include &lt;climits&gt;
+#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+using namespace std;
+int MAX = 3;
+
+class BPTree;
+
+class Node {
+  bool IS_LEAF;
+  int *key, size;
+  Node **ptr;
+  friend class BPTree;
+
+  public:
+  Node();
+};
+
+class BPTree {
+  Node *root;
+  void insertInternal(int, Node *, Node *);
+  void removeInternal(int, Node *, Node *);
+  Node *findParent(Node *, Node *);
+
+  public:
+  BPTree();
+  void search(int);
+  void insert(int);
+  void remove(int);
+  void display(Node *);
+  Node *getRoot();
+};
+
+Node::Node() {
+  key = new int[MAX];
+  ptr = new Node *[MAX + 1];
+}
+
+BPTree::BPTree() { root = NULL; }
+
+void BPTree::insert(int x) {
+  if (root == NULL) {
+    root = new Node;
+    root-&gt;key[0] = x;
+    root-&gt;IS_LEAF = true;
+    root-&gt;size = 1;
+  } else {
+    Node *cursor = root;
+    Node *parent;
+    while (cursor-&gt;IS_LEAF == false) {
+      parent = cursor;
+      for (int i = 0; i &lt; cursor-&gt;size; i++) {
+        if (x &lt; cursor-&gt;key[i]) {
+          cursor = cursor-&gt;ptr[i];
+          break;
+        }
+        if (i == cursor-&gt;size - 1) {
+          cursor = cursor-&gt;ptr[i + 1];
+          break;
+        }
+      }
+    }
+    if (cursor-&gt;size &lt; MAX) {
+      int i = 0;
+      while (x &gt; cursor-&gt;key[i] &amp;&amp; i &lt; cursor-&gt;size) i++;
+      for (int j = cursor-&gt;size; j &gt; i; j--) {
+        cursor-&gt;key[j] = cursor-&gt;key[j - 1];
+      }
+      cursor-&gt;key[i] = x;
+      cursor-&gt;size++;
+      cursor-&gt;ptr[cursor-&gt;size] = cursor-&gt;ptr[cursor-&gt;size - 1];
+      cursor-&gt;ptr[cursor-&gt;size - 1] = NULL;
+    } else {
+      Node *newLeaf = new Node;
+      int virtualNode[MAX + 1];
+      for (int i = 0; i &lt; MAX; i++) {
+        virtualNode[i] = cursor-&gt;key[i];
+      }
+      int i = 0, j;
+      while (x &gt; virtualNode[i] &amp;&amp; i &lt; MAX) i++;
+      for (int j = MAX + 1; j &gt; i; j--) {
+        virtualNode[j] = virtualNode[j - 1];
+      }
+      virtualNode[i] = x;
+      newLeaf-&gt;IS_LEAF = true;
+      cursor-&gt;size = (MAX + 1) / 2;
+      newLeaf-&gt;size = MAX + 1 - (MAX + 1) / 2;
+      cursor-&gt;ptr[cursor-&gt;size] = newLeaf;
+      newLeaf-&gt;ptr[newLeaf-&gt;size] = cursor-&gt;ptr[MAX];
+      cursor-&gt;ptr[MAX] = NULL;
+      for (i = 0; i &lt; cursor-&gt;size; i++) {
+        cursor-&gt;key[i] = virtualNode[i];
+      }
+      for (i = 0, j = cursor-&gt;size; i &lt; newLeaf-&gt;size; i++, j++) {
+        newLeaf-&gt;key[i] = virtualNode[j];
+      }
+      if (cursor == root) {
+        Node *newRoot = new Node;
+        newRoot-&gt;key[0] = newLeaf-&gt;key[0];
+        newRoot-&gt;ptr[0] = cursor;
+        newRoot-&gt;ptr[1] = newLeaf;
+        newRoot-&gt;IS_LEAF = false;
+        newRoot-&gt;size = 1;
+        root = newRoot;
+      } else {
+        insertInternal(newLeaf-&gt;key[0], parent, newLeaf);
+      }
+    }
+  }
+}
+
+void BPTree::insertInternal(int x, Node *cursor, Node *child) {
+  if (cursor-&gt;size &lt; MAX) {
+    int i = 0;
+    while (x &gt; cursor-&gt;key[i] &amp;&amp; i &lt; cursor-&gt;size) i++;
+    for (int j = cursor-&gt;size; j &gt; i; j--) {
+      cursor-&gt;key[j] = cursor-&gt;key[j - 1];
+    }
+    for (int j = cursor-&gt;size + 1; j &gt; i + 1; j--) {
+      cursor-&gt;ptr[j] = cursor-&gt;ptr[j - 1];
+    }
+    cursor-&gt;key[i] = x;
+    cursor-&gt;size++;
+    cursor-&gt;ptr[i + 1] = child;
+  } else {
+    Node *newInternal = new Node;
+    int virtualKey[MAX + 1];
+    Node *virtualPtr[MAX + 2];
+    for (int i = 0; i &lt; MAX; i++) {
+      virtualKey[i] = cursor-&gt;key[i];
+    }
+    for (int i = 0; i &lt; MAX + 1; i++) {
+      virtualPtr[i] = cursor-&gt;ptr[i];
+    }
+    int i = 0, j;
+    while (x &gt; virtualKey[i] &amp;&amp; i &lt; MAX) i++;
+    for (int j = MAX + 1; j &gt; i; j--) {
+      virtualKey[j] = virtualKey[j - 1];
+    }
+    virtualKey[i] = x;
+    for (int j = MAX + 2; j &gt; i + 1; j--) {
+      virtualPtr[j] = virtualPtr[j - 1];
+    }
+    virtualPtr[i + 1] = child;
+    newInternal-&gt;IS_LEAF = false;
+    cursor-&gt;size = (MAX + 1) / 2;
+    newInternal-&gt;size = MAX - (MAX + 1) / 2;
+    for (i = 0, j = cursor-&gt;size + 1; i &lt; newInternal-&gt;size; i++, j++) {
+      newInternal-&gt;key[i] = virtualKey[j];
+    }
+    for (i = 0, j = cursor-&gt;size + 1; i &lt; newInternal-&gt;size + 1; i++, j++) {
+      newInternal-&gt;ptr[i] = virtualPtr[j];
+    }
+    if (cursor == root) {
+      Node *newRoot = new Node;
+      newRoot-&gt;key[0] = cursor-&gt;key[cursor-&gt;size];
+      newRoot-&gt;ptr[0] = cursor;
+      newRoot-&gt;ptr[1] = newInternal;
+      newRoot-&gt;IS_LEAF = false;
+      newRoot-&gt;size = 1;
+      root = newRoot;
+    } else {
+      insertInternal(cursor-&gt;key[cursor-&gt;size], findParent(root, cursor),
+                      newInternal);
+    }
+  }
+}
+
+Node *BPTree::findParent(Node *cursor, Node *child) {
+  Node *parent;
+  if (cursor-&gt;IS_LEAF || (cursor-&gt;ptr[0])-&gt;IS_LEAF) {
+    return NULL;
+  }
+  for (int i = 0; i &lt; cursor-&gt;size + 1; i++) {
+    if (cursor-&gt;ptr[i] == child) {
+      parent = cursor;
+      return parent;
+    } else {
+      parent = findParent(cursor-&gt;ptr[i], child);
+      if (parent != NULL) return parent;
+    }
+  }
+  return parent;
+}
+
+void BPTree::remove(int x) {
+  if (root == NULL) {
+    cout &lt;&lt; &quot;Tree empty\n&quot;;
+  } else {
+    Node *cursor = root;
+    Node *parent;
+    int leftSibling, rightSibling;
+    while (cursor-&gt;IS_LEAF == false) {
+      for (int i = 0; i &lt; cursor-&gt;size; i++) {
+        parent = cursor;
+        leftSibling = i - 1;
+        rightSibling = i + 1;
+        if (x &lt; cursor-&gt;key[i]) {
+          cursor = cursor-&gt;ptr[i];
+          break;
+        }
+        if (i == cursor-&gt;size - 1) {
+          leftSibling = i;
+          rightSibling = i + 2;
+          cursor = cursor-&gt;ptr[i + 1];
+          break;
+        }
+      }
+    }
+    bool found = false;
+    int pos;
+    for (pos = 0; pos &lt; cursor-&gt;size; pos++) {
+      if (cursor-&gt;key[pos] == x) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      cout &lt;&lt; &quot;Not found\n&quot;;
+      return;
+    }
+    for (int i = pos; i &lt; cursor-&gt;size; i++) {
+      cursor-&gt;key[i] = cursor-&gt;key[i + 1];
+    }
+    cursor-&gt;size--;
+    if (cursor == root) {
+      for (int i = 0; i &lt; MAX + 1; i++) {
+        cursor-&gt;ptr[i] = NULL;
+      }
+      if (cursor-&gt;size == 0) {
+        cout &lt;&lt; &quot;Tree died\n&quot;;
+        delete[] cursor-&gt;key;
+        delete[] cursor-&gt;ptr;
+        delete cursor;
+        root = NULL;
+      }
+      return;
+    }
+    cursor-&gt;ptr[cursor-&gt;size] = cursor-&gt;ptr[cursor-&gt;size + 1];
+    cursor-&gt;ptr[cursor-&gt;size + 1] = NULL;
+    if (cursor-&gt;size &gt;= (MAX + 1) / 2) {
+      return;
+    }
+    if (leftSibling &gt;= 0) {
+      Node *leftNode = parent-&gt;ptr[leftSibling];
+      if (leftNode-&gt;size &gt;= (MAX + 1) / 2 + 1) {
+        for (int i = cursor-&gt;size; i &gt; 0; i--) {
+          cursor-&gt;key[i] = cursor-&gt;key[i - 1];
+        }
+        cursor-&gt;size++;
+        cursor-&gt;ptr[cursor-&gt;size] = cursor-&gt;ptr[cursor-&gt;size - 1];
+        cursor-&gt;ptr[cursor-&gt;size - 1] = NULL;
+        cursor-&gt;key[0] = leftNode-&gt;key[leftNode-&gt;size - 1];
+        leftNode-&gt;size--;
+        leftNode-&gt;ptr[leftNode-&gt;size] = cursor;
+        leftNode-&gt;ptr[leftNode-&gt;size + 1] = NULL;
+        parent-&gt;key[leftSibling] = cursor-&gt;key[0];
+        return;
+      }
+    }
+    if (rightSibling &lt;= parent-&gt;size) {
+      Node *rightNode = parent-&gt;ptr[rightSibling];
+      if (rightNode-&gt;size &gt;= (MAX + 1) / 2 + 1) {
+        cursor-&gt;size++;
+        cursor-&gt;ptr[cursor-&gt;size] = cursor-&gt;ptr[cursor-&gt;size - 1];
+        cursor-&gt;ptr[cursor-&gt;size - 1] = NULL;
+        cursor-&gt;key[cursor-&gt;size - 1] = rightNode-&gt;key[0];
+        rightNode-&gt;size--;
+        rightNode-&gt;ptr[rightNode-&gt;size] = rightNode-&gt;ptr[rightNode-&gt;size + 1];
+        rightNode-&gt;ptr[rightNode-&gt;size + 1] = NULL;
+        for (int i = 0; i &lt; rightNode-&gt;size; i++) {
+          rightNode-&gt;key[i] = rightNode-&gt;key[i + 1];
+        }
+        parent-&gt;key[rightSibling - 1] = rightNode-&gt;key[0];
+        return;
+      }
+    }
+    if (leftSibling &gt;= 0) {
+      Node *leftNode = parent-&gt;ptr[leftSibling];
+      for (int i = leftNode-&gt;size, j = 0; j &lt; cursor-&gt;size; i++, j++) {
+        leftNode-&gt;key[i] = cursor-&gt;key[j];
+      }
+      leftNode-&gt;ptr[leftNode-&gt;size] = NULL;
+      leftNode-&gt;size += cursor-&gt;size;
+      leftNode-&gt;ptr[leftNode-&gt;size] = cursor-&gt;ptr[cursor-&gt;size];
+      removeInternal(parent-&gt;key[leftSibling], parent, cursor);
+      delete[] cursor-&gt;key;
+      delete[] cursor-&gt;ptr;
+      delete cursor;
+    } else if (rightSibling &lt;= parent-&gt;size) {
+      Node *rightNode = parent-&gt;ptr[rightSibling];
+      for (int i = cursor-&gt;size, j = 0; j &lt; rightNode-&gt;size; i++, j++) {
+        cursor-&gt;key[i] = rightNode-&gt;key[j];
+      }
+      cursor-&gt;ptr[cursor-&gt;size] = NULL;
+      cursor-&gt;size += rightNode-&gt;size;
+      cursor-&gt;ptr[cursor-&gt;size] = rightNode-&gt;ptr[rightNode-&gt;size];
+      cout &lt;&lt; &quot;Merging two leaf nodes\n&quot;;
+      removeInternal(parent-&gt;key[rightSibling - 1], parent, rightNode);
+      delete[] rightNode-&gt;key;
+      delete[] rightNode-&gt;ptr;
+      delete rightNode;
+    }
+  }
+}
+
+void BPTree::removeInternal(int x, Node *cursor, Node *child) {
+  if (cursor == root) {
+    if (cursor-&gt;size == 1) {
+      if (cursor-&gt;ptr[1] == child) {
+        delete[] child-&gt;key;
+        delete[] child-&gt;ptr;
+        delete child;
+        root = cursor-&gt;ptr[0];
+        delete[] cursor-&gt;key;
+        delete[] cursor-&gt;ptr;
+        delete cursor;
+        cout &lt;&lt; &quot;Changed root node\n&quot;;
+        return;
+      } else if (cursor-&gt;ptr[0] == child) {
+        delete[] child-&gt;key;
+        delete[] child-&gt;ptr;
+        delete child;
+        root = cursor-&gt;ptr[1];
+        delete[] cursor-&gt;key;
+        delete[] cursor-&gt;ptr;
+        delete cursor;
+        cout &lt;&lt; &quot;Changed root node\n&quot;;
+        return;
+      }
+    }
+  }
+  int pos;
+  for (pos = 0; pos &lt; cursor-&gt;size; pos++) {
+    if (cursor-&gt;key[pos] == x) {
+      break;
+    }
+  }
+  for (int i = pos; i &lt; cursor-&gt;size; i++) {
+    cursor-&gt;key[i] = cursor-&gt;key[i + 1];
+  }
+  for (pos = 0; pos &lt; cursor-&gt;size + 1; pos++) {
+    if (cursor-&gt;ptr[pos] == child) {
+      break;
+    }
+  }
+  for (int i = pos; i &lt; cursor-&gt;size + 1; i++) {
+    cursor-&gt;ptr[i] = cursor-&gt;ptr[i + 1];
+  }
+  cursor-&gt;size--;
+  if (cursor-&gt;size &gt;= (MAX + 1) / 2 - 1) {
+    return;
+  }
+  if (cursor == root) return;
+  Node *parent = findParent(root, cursor);
+  int leftSibling, rightSibling;
+  for (pos = 0; pos &lt; parent-&gt;size + 1; pos++) {
+    if (parent-&gt;ptr[pos] == cursor) {
+      leftSibling = pos - 1;
+      rightSibling = pos + 1;
+      break;
+    }
+  }
+  if (leftSibling &gt;= 0) {
+    Node *leftNode = parent-&gt;ptr[leftSibling];
+    if (leftNode-&gt;size &gt;= (MAX + 1) / 2) {
+      for (int i = cursor-&gt;size; i &gt; 0; i--) {
+        cursor-&gt;key[i] = cursor-&gt;key[i - 1];
+      }
+      cursor-&gt;key[0] = parent-&gt;key[leftSibling];
+      parent-&gt;key[leftSibling] = leftNode-&gt;key[leftNode-&gt;size - 1];
+      for (int i = cursor-&gt;size + 1; i &gt; 0; i--) {
+        cursor-&gt;ptr[i] = cursor-&gt;ptr[i - 1];
+      }
+      cursor-&gt;ptr[0] = leftNode-&gt;ptr[leftNode-&gt;size];
+      cursor-&gt;size++;
+      leftNode-&gt;size--;
+      return;
+    }
+  }
+  if (rightSibling &lt;= parent-&gt;size) {
+    Node *rightNode = parent-&gt;ptr[rightSibling];
+    if (rightNode-&gt;size &gt;= (MAX + 1) / 2) {
+      cursor-&gt;key[cursor-&gt;size] = parent-&gt;key[pos];
+      parent-&gt;key[pos] = rightNode-&gt;key[0];
+      for (int i = 0; i &lt; rightNode-&gt;size - 1; i++) {
+        rightNode-&gt;key[i] = rightNode-&gt;key[i + 1];
+      }
+      cursor-&gt;ptr[cursor-&gt;size + 1] = rightNode-&gt;ptr[0];
+      for (int i = 0; i &lt; rightNode-&gt;size; ++i) {
+        rightNode-&gt;ptr[i] = rightNode-&gt;ptr[i + 1];
+      }
+      cursor-&gt;size++;
+      rightNode-&gt;size--;
+      return;
+    }
+  }
+  if (leftSibling &gt;= 0) {
+    Node *leftNode = parent-&gt;ptr[leftSibling];
+    leftNode-&gt;key[leftNode-&gt;size] = parent-&gt;key[leftSibling];
+    for (int i = leftNode-&gt;size + 1, j = 0; j &lt; cursor-&gt;size; j++) {
+      leftNode-&gt;key[i] = cursor-&gt;key[j];
+    }
+    for (int i = leftNode-&gt;size + 1, j = 0; j &lt; cursor-&gt;size + 1; j++) {
+      leftNode-&gt;ptr[i] = cursor-&gt;ptr[j];
+      cursor-&gt;ptr[j] = NULL;
+    }
+    leftNode-&gt;size += cursor-&gt;size + 1;
+    cursor-&gt;size = 0;
+    removeInternal(parent-&gt;key[leftSibling], parent, cursor);
+  } else if (rightSibling &lt;= parent-&gt;size) {
+    Node *rightNode = parent-&gt;ptr[rightSibling];
+    cursor-&gt;key[cursor-&gt;size] = parent-&gt;key[rightSibling - 1];
+    for (int i = cursor-&gt;size + 1, j = 0; j &lt; rightNode-&gt;size; j++) {
+      cursor-&gt;key[i] = rightNode-&gt;key[j];
+    }
+    for (int i = cursor-&gt;size + 1, j = 0; j &lt; rightNode-&gt;size + 1; j++) {
+      cursor-&gt;ptr[i] = rightNode-&gt;ptr[j];
+      rightNode-&gt;ptr[j] = NULL;
+    }
+    cursor-&gt;size += rightNode-&gt;size + 1;
+    rightNode-&gt;size = 0;
+    removeInternal(parent-&gt;key[rightSibling - 1], parent, rightNode);
+  }
+}
+
+void BPTree::display(Node *cursor) {
+  if (cursor != NULL) {
+    for (int i = 0; i &lt; cursor-&gt;size; i++) {
+      cout &lt;&lt; cursor-&gt;key[i] &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; &quot;\n&quot;;
+    if (cursor-&gt;IS_LEAF != true) {
+      for (int i = 0; i &lt; cursor-&gt;size + 1; i++) {
+        display(cursor-&gt;ptr[i]);
+      }
+    }
+  }
+}
+
+Node *BPTree::getRoot() { return root; }
+
+int main() {
+  BPTree node;
+  node.insert(5);
+  node.insert(15);
+  node.insert(25);
+  node.insert(35);
+  node.insert(45);
+
+  node.display(node.getRoot());
+
+  node.remove(15);
+
+  node.display(node.getRoot());
+}
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div><h2 id="参考资料" tabindex="-1"><a class="header-anchor" href="#参考资料"><span>参考资料</span></a></h2><ul><li><a href="https://en.wikipedia.org/wiki/B%2B_tree" target="_blank" rel="noopener noreferrer">B+ tree wikipedia<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></li><li><a href="https://www.codedump.info/post/20200615-btree-2/" target="_blank" rel="noopener noreferrer">B 树、B+ 树索引算法原理（下）<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></li><li><a href="https://www.cnblogs.com/JayL-zxl/p/14304178.html" target="_blank" rel="noopener noreferrer">B+ 树详解 + 代码实现（插入篇）<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></li><li><a href="https://www.programiz.com/dsa/deletion-from-a-b-plus-tree" target="_blank" rel="noopener noreferrer">Deletion from a B+ Tree<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a></li></ul></div><!--[--><!----><!--]--><footer class="vp-page-meta"><!----><div class="vp-meta-item git-info"><div class="update-time"><span class="vp-meta-label">上次编辑于: </span><!----></div><div class="contributors"><span class="vp-meta-label">贡献者: </span><!--[--><!--[--><span class="vp-meta-info" title="email: LeslieDYF@gmail.com">Leslie</span><!--]--><!--]--></div></div></footer><nav class="vp-page-nav"><a class="route-link nav-link prev" href="/leslie-blog/blog/datastructure/b-tree.html" aria-label="B 树"><div class="hint"><span class="arrow start"></span>上一页</div><div class="link"><!---->B 树</div></a><!----></nav><div id="vp-comment" class="giscus-wrapper input-top" style="display:none;"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" preserveAspectRatio="xMidYMid" viewBox="0 0 100 100"><circle cx="28" cy="75" r="11" fill="currentColor"><animate attributeName="fill-opacity" begin="0s" dur="1s" keyTimes="0;0.2;1" repeatCount="indefinite" values="0;1;1"></animate></circle><path fill="none" stroke="#88baf0" stroke-width="10" d="M28 47a28 28 0 0 1 28 28"><animate attributeName="stroke-opacity" begin="0.1s" dur="1s" keyTimes="0;0.2;1" repeatCount="indefinite" values="0;1;1"></animate></path><path fill="none" stroke="#88baf0" stroke-width="10" d="M28 25a50 50 0 0 1 50 50"><animate attributeName="stroke-opacity" begin="0.2s" dur="1s" keyTimes="0;0.2;1" repeatCount="indefinite" values="0;1;1"></animate></path></svg></div><!--[--><!----><!--]--><!--]--></main><!--]--><footer class="vp-footer-wrapper"><div class="vp-footer">默认页脚</div><div class="vp-copyright">Copyright © 2024 Persdre </div></footer></div><!--]--><!--[--><!----><!--]--><!--]--></div>
+    <script type="module" src="/leslie-blog/assets/app-BEROnbsp.js" defer></script>
+  </body>
+</html>
