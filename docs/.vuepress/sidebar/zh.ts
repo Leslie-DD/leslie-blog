@@ -211,27 +211,95 @@ export const zhSidebar = sidebar({
             },
           ]
         },
+      ],
+    },
+  ],
+
+  '/datastructure/': [
+    {
+      text: '数据结构',
+      link: '/datastructure/',
+      children: [
         {
-          text: '数据结构与算法',
-          link: '/blog/datastructure/',
-          collapsable: true,
+          text: '🌳 树',
+          link: '/datastructure/tree/',
+          collapsible: true,
           children: [
             {
-              text: '树',
-              link: '/blog/datastructure/tree.md'
+              text: '二叉树',
+              link: '/datastructure/tree/binary-tree.md'
             },
             {
               text: 'B 树',
-              link: '/blog/datastructure/b-tree.md'
+              link: '/datastructure/tree/b-tree.md'
             },
             {
               text: 'B+ 树',
-              link: '/blog/datastructure/bplus-tree.md'
+              link: '/datastructure/tree/bplus-tree.md'
             },
           ]
         },
-      ],
+      ]
     },
+  ],
+
+  '/algorithms/': [
+    {
+      text: '算法',
+      link: '/algorithms/',
+      children: [
+        {
+          text: '排序算法',
+          link: '/algorithms/sort/',
+          collapsible: true,
+          children: [
+            {
+              text: '选择排序', link: '/algorithms/sort/selection-sort.md'
+            },
+            {
+              text: '冒泡排序', link: '/algorithms/sort/bubble-sort.md'
+            },
+            {
+              text: '插入排序', link: '/algorithms/sort/insertion-sort.md'
+            },
+            {
+              text: '计数排序', link: '/algorithms/sort/counting-sort.md'
+            },
+            {
+              text: '基数排序', link: '/algorithms/sort/radix-sort.md'
+            },
+            {
+              text: '快速排序', link: '/algorithms/sort/quick-sort.md'
+            },
+            {
+              text: '归并排序', link: '/algorithms/sort/merge-sort.md'
+            },
+            {
+              text: '堆排序', link: '/algorithms/sort/heap-sort.md'
+            },
+            {
+              text: '桶排序', link: '/algorithms/sort/bucket-sort.md'
+            },
+            {
+              text: '希尔排序', link: '/algorithms/sort/shell-sort.md'
+            },
+            {
+              text: '锦标赛排序', link: '/algorithms/sort/tournament-sort.md'
+            },
+            {
+              text: 'tim排序', link: '/algorithms/sort/tim-sort.md'
+            },
+            {
+              text: '排序相关 STL', link: '/algorithms/sort/stl-sort.md'
+            },
+            {
+              text: '排序应用', link: '/algorithms/sort/use-of-sort.md'
+            }
+          ]
+        }
+      ]
+
+    }
   ],
 
   '/projects/': [

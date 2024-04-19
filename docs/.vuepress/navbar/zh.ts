@@ -78,11 +78,29 @@ export const zhNavbar = navbar([
         text: 'Java',
         link: 'java/' 
       },
-      { 
-        text: '数据结构与算法',
-        link: 'datastructure/' 
-      },
     ],
+  },
+  
+  {
+    text: '数据结构',
+    prefix: '/datastructure/',
+    children: [
+      {
+        text: '🌳 树',
+        link: 'tree/'
+      },
+    ]
+  },
+  
+  {
+    text: '算法',
+    prefix: '/algorithms/',
+    children: [
+      {
+        text: '排序算法',
+        link: 'sort/'
+      },
+    ]
   },
 
   {

@@ -1,5 +1,5 @@
 ---
-title: 树
+title: 二叉树
 author: Leslie-D
 editLink: false
 comment: false
