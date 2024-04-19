@@ -2,11 +2,11 @@
 editLink: false
 comment: false
 title: 启动项目与部署
-date: 2024-04-17
+date: 2022-04-17
 ---
 
 ## 一、准备运行环境
-[准备运行环境](https://vuepress-theme-hope.github.io/v2/zh/cookbook/tutorial/env.html)
+[准备运行环境](https://theme-hope.vuejs.press/zh/get-started/env.html)
 
 ## 二、pnpm run docs:dev报错
 
@@ -21,16 +21,17 @@ date: 2024-04-17
  ### 1. 解决方法
  
  ```bash
- # Deprecated
- npm i vuepress@next vuepress-theme-hope@next && npm install && npm update
-
+# Deprecated
+npm i vuepress@next vuepress-theme-hope@next && npm install && npm update
+# Deprecated
 npm i -D @vuepress/bundler-vite@next && npm install && npm update
+
+pnpm install --frozen-lockfile
  ```
  ```bash
- yarn docs:dev
+ pnpm run docs:dev
  ```
 
 <img src="./启动开发服务器成功.png">’
 
- **看官网，少他妈的自己不会瞎整。**
- [ Vuepress-theme-hope 官网配置教程](https://vuepress-theme-hope.github.io/v2/zh/cookbook/tutorial/command.html#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
+ **注：[Vuepress-theme-hope 官网配置教程](https://theme-hope.vuejs.press/zh/)**
