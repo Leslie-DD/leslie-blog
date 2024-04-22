@@ -306,6 +306,7 @@ export const zhSidebar = sidebar({
     {
       text: '📙 Reading',
       link: '/projects/reading/',
+      collapsible: true,
       children: [
         {
           text: '模块解析',
@@ -320,6 +321,10 @@ export const zhSidebar = sidebar({
           link: '/projects/reading/数据字典.md'
         },
       ]
+    },
+    {
+      text: '🔐 Passwd',
+      link: '/projects/passwd/',
     }
   ],
 

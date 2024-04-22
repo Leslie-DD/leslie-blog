@@ -111,6 +111,10 @@ export const zhNavbar = navbar([
         text: 'Reading',
         link: 'reading/'
       },
+      {
+        text: 'Passwd',
+        link: 'passwd/'
+      },
     ]
   },
 
