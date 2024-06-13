@@ -135,6 +135,32 @@ export const zhSidebar = sidebar({
       ],
     },
   ],
+
+
+
+  '/java/': [
+    {
+      text: "Java",
+      children: [
+        {
+          text: 'Java Exception',
+          link: '/java/JavaException.md',
+        },
+        {
+          text: 'Java 多线程',
+          link: '/java/concurrency/',
+          collapsable: true,
+          children: [
+            {
+              text: 'Java 关键字 Volatile 详解',
+              link: '/java/concurrency/JavaVolatile.md'
+            }
+          ],
+        }
+      ]
+    }
+  ],
+
   '/blog/': [
     {
       text: '技术博客',

@@ -50,6 +50,22 @@ export const zhNavbar = navbar([
     ],
   },
 
+
+
+  {
+    text: 'Java',
+    prefix: '/java/',
+    children: [
+      {
+        text: 'Java Exception',
+        link: 'JavaException.md',
+      },      {
+        text: 'Java 多线程',
+        link: 'concurrency/',
+      },
+    ]
+  },
+
   {
     text: '技术博客',
     prefix: '/blog/',
@@ -73,10 +89,6 @@ export const zhNavbar = navbar([
       { 
         text: 'Python',
         link: 'python/' 
-      },
-      { 
-        text: 'Java',
-        link: 'java/' 
       },
     ],
   },
