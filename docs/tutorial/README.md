@@ -1,6 +1,6 @@
 ---
 title: 教程
-author: Leslie-D
+author: Leslie D
 editLink: false
 comment: false
 ---

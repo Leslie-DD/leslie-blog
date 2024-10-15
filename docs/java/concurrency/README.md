@@ -1,6 +1,6 @@
 ---
 title: Java 多线程-理论基础
-author: Leslie-D
+author: Leslie D
 editLink: false
 comment: false
 tag:

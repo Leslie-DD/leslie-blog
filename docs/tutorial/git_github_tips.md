@@ -2,7 +2,7 @@
 index: 1
 # icon: page
 title: Git & GitHub
-author: Leslie-D
+author: Leslie D
 date: 2022-03-27
 star: true
 tag:

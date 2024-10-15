@@ -1,6 +1,6 @@
 ---
 title: Idea 部署项目到远程 Docker Tomcat
-author: Leslie-D
+author: Leslie D
 date: 2023-07-21
 tag:
   - Docker

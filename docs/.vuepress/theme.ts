@@ -6,7 +6,7 @@ export default hopeTheme({
   hostname: "https://leslie-dd.github.io/leslie-blog",
 
   author: {
-    name: "Leslie",
+    name: "DYF",
     url: "https://mrhope.site",
   },
 

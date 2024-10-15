@@ -1,5 +1,5 @@
 ---
-author: Leslie-D
+author: Leslie D
 title: Canvas.drawText解析
 tag:
   - Android

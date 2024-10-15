@@ -175,6 +175,10 @@ export const zhSidebar = sidebar({
             {
               text: 'Canvas.drawText解析',
               link: '/blog/android/drawText解析.md'
+            },
+            {
+              text: 'SurfaceView VS TextureView ',
+              link: '/blog/android/SurfaceVIew_VS_TextureView.md'
             }
           ],
         },
