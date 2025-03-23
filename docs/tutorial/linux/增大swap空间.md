@@ -4,7 +4,7 @@ tag:
   - Ubuntu
   - 系统
 title: 增大swap空间
-author: Leslie D
+author: Evan
 date: 2022-07-04
 editLink: false
 comment: false

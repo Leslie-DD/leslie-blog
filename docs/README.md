@@ -5,7 +5,7 @@ icon: home
 title: 主页
 bgImage: /images/WechatIMG344272.jpg
 heroImage: /images/logo.jpg
-heroText: Leslie's Blog
+heroText: Evan's Blog
 heroFullScreen: true
 tagline: 学吧，打工仔，继续学吧
 projects:
@@ -39,7 +39,7 @@ projects:
     desc: 自定义详细介绍
     link: https://你的自定义链接
 
-footer: Hello, Leslie!
+footer: Hello, Evan!
 ---
 
 <!-- 这是一个博客主页的案例。

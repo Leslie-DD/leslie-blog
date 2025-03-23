@@ -1,6 +1,6 @@
 ---
-title: Java 关键字 Volatile 详解
-author: Leslie D
+title: 关键字 Volatile 详解
+author: Evan
 editLink: false
 comment: false
 tag:

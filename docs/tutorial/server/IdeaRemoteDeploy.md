@@ -1,6 +1,6 @@
 ---
 title: Idea 部署项目到远程 Tomcat 踩坑
-author: Leslie
+author: Evan
 date: 2023-07-20
 # category:
 #   - Tutorial
@@ -8,7 +8,7 @@ tag:
   - Idea
   - Tomcat
   - Server
-copyright: Copyright © 2023 Leslie
+copyright: Copyright © 2023 Evan
 ---
 
 ::: note 背景

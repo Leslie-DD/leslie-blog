@@ -1,6 +1,6 @@
 ---
 title: SurfaceView 和 TextureView 的区别
-author: Leslie D
+author: Evan
 editLink: false
 comment: false
 date: 2024-09-24

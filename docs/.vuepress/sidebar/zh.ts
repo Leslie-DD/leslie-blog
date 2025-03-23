@@ -152,9 +152,21 @@ export const zhSidebar = sidebar({
           collapsable: true,
           children: [
             {
-              text: 'Java 关键字 Volatile 详解',
-              link: '/java/concurrency/JavaVolatile.md'
-            }
+              text: '关键字 Synchronized 详解',
+              link: '/java/concurrency/synchronized.md'
+            },
+            {
+              text: '关键字 Volatile 详解',
+              link: '/java/concurrency/volatile.md'
+            },
+            {
+              text: '关键字 final 详解',
+              link: '/java/concurrency/final.md'
+            },
+            {
+              text: '内存屏障',
+              link: '/java/concurrency/memorybarrier.md'
+            },
           ],
         }
       ]

@@ -1,5 +1,5 @@
 ---
-author: Leslie D
+author: Evan
 title: adb uninstall 失败
 # category:
 #   - Tutorial

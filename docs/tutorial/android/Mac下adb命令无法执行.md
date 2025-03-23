@@ -1,5 +1,5 @@
 ---
-author: Leslie D
+author: Evan
 title: adb 在某些机型上无法执行命令
 tag:
   - adb

@@ -1,7 +1,7 @@
 ---
 index: 1
 title: MacOS终端配置
-author: Leslie D
+author: Evan
 date: 2022-06-08
 star: true
 tag:

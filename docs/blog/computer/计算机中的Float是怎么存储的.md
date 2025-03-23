@@ -1,5 +1,5 @@
 ---
-author: Leslie D
+author: Evan
 tag:
   - 计算机组成原理
 editLink: false
