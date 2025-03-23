@@ -1,5 +1,5 @@
 ---
-title: 关键字 Volatile 详解
+title: 关键字 volatile 详解
 author: Evan
 editLink: false
 comment: false
