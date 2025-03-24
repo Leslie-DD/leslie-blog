@@ -193,8 +193,12 @@ export const zhSidebar = sidebar({
               link: '/blog/android/drawText解析.md'
             },
             {
-              text: 'SurfaceView VS TextureView ',
+              text: 'SurfaceView VS TextureView',
               link: '/blog/android/SurfaceVIew_VS_TextureView.md'
+            },
+            {
+              text: 'View 的事件分发机制',
+              link: '/blog/android/view_event_distribution.md'
             }
           ],
         },
