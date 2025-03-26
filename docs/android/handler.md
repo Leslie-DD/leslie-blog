@@ -55,7 +55,7 @@ Handler创建完成之后，其内部的Looper以及MessageQueue就可以和Hand
 
 ### 2.1 ThreadLocal的工作原理[¶](#21-threadlocal "Permanent link")
 
-> 更详细的解释见另一篇文章[《ThreadLocal 详解》](../java/concurrency/ThreadLocal.md)
+> 更详细的解释见另外两篇文章[《ThreadLocal 详解》](../java/concurrency/ThreadLocal.md)、[《ThreadLocal 详解 - Java Guide》](../java/concurrency/ThreadLocalJavaGuide.md)
 
 `ThreadLocal`是一个线程内部的数据存储类，通过它可以在各个线程中存储不同的数据。在日常开发中用到的地方较少，但在某些特殊情况下，通过ThreadLocal可以轻松实现一些看起来很复杂的功能，比如Android源码中Looper、ActivityThread、AMS等。它一般有两个使用场景：
 
@@ -150,11 +150,11 @@ private static int nextHashCode() {
 
 注意到这里的nextHashCode变量，这是一个 **静态** 的原子整型， **threadLocalHashCode的初始化都会导致nextHashCode变量增加HASH\_INCREMENT，因此每一个ThreadLocal的threadLocalHashCode都不同。** 这样每一个ThreadLocal在table中的位置也就不一样了。
 
-下面我们看看`LocalThread`作为key，是怎么样在`LocalThreadMap`中进行操作的。从源码可以知道`LocalThread`的`get/set/remove`方法都是调用的`LocalThreadMap`的对应方法。**且在**`get/set`**方法中，如果当前线程的**`ThreadLocalMap`**没有创建，则会创建并初始化**`ThreadLocalMap`**，这样**`ThreadLocal`**就会在当前线程拥有一个副本了。**
+下面我们看看`ThreadLocal`作为key，是怎么样在`ThreadLocalMap`中进行操作的。从源码可以知道`ThreadLocal`的`get/set/remove`方法都是调用的`ThreadLocalMap`的对应方法。**且在**`get/set`**方法中，如果当前线程的**`ThreadLocalMap`**没有创建，则会创建并初始化**`ThreadLocalMap`**，这样**`ThreadLocal`**就会在当前线程拥有一个副本了。**
 
 那么，我们一个个来看：
 
-首先是`LocalThread.set`方法对应的`ThreadLocalMap.set`方法：
+首先是`ThreadLocal.set`方法对应的`ThreadLocalMap.set`方法：
 
 ```java
 private void set(ThreadLocal<?> key, Object value) {
@@ -193,7 +193,7 @@ private void set(ThreadLocal<?> key, Object value) {
 
 在上面的`set`方法中，首先处理`threadLocalHashCode`得到i，然后在`table[]`里面找出可以替换的或者在i上插入要保存的值。这里如果i上发现有别的key（hash碰撞），就依次往后面挪，一直到找到同一个key进行取代或者找到一个空的位置保存值。
 
-然后是`LocalThread.get`方法对应的`ThreadLocalMap.getEntry`方法：
+然后是`ThreadLocal.get`方法对应的`ThreadLocalMap.getEntry`方法：
 
 ```java
 private Entry getEntry(ThreadLocal<?> key) {
