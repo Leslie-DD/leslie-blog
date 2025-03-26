@@ -55,7 +55,7 @@ Handler创建完成之后，其内部的Looper以及MessageQueue就可以和Hand
 
 ### 2.1 ThreadLocal的工作原理[¶](#21-threadlocal "Permanent link")
 
-> 更详细的解释见另外两篇文章[《ThreadLocal 详解》](../java/concurrency/ThreadLocal.md)、[《ThreadLocal 详解 - Java Guide》](../java/concurrency/ThreadLocalJavaGuide.md)
+> 更详细的解释见另外两篇文章[《ThreadLocal 详解》](../java/concurrency/ThreadLocal.md)、[《ThreadLocal 详解 - Java Guide》](../java/concurrency/ThreadLocalJavaGuide.md)、[《ThreadLocal 个人理解》](../java/concurrency/ThreadLocalPersonalUnderstanding.md)
 
 `ThreadLocal`是一个线程内部的数据存储类，通过它可以在各个线程中存储不同的数据。在日常开发中用到的地方较少，但在某些特殊情况下，通过ThreadLocal可以轻松实现一些看起来很复杂的功能，比如Android源码中Looper、ActivityThread、AMS等。它一般有两个使用场景：
 
