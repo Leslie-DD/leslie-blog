@@ -171,6 +171,10 @@ export const zhSidebar = sidebar({
               text: '单例模式双检锁',
               link: '/java/concurrency/java_double_check_single_instance.md'
             },
+            {
+              text: 'ThreadLocal 详解',
+              link: '/java/concurrency/ThreadLocal.md'
+            },
           ],
         }
       ]
@@ -194,6 +198,10 @@ export const zhSidebar = sidebar({
         {
           text: 'View 的事件分发机制',
           link: '/android/view_event_distribution.md'
+        },
+        {
+          text: 'Android 消息机制',
+          link: '/android/handler.md'
         }
       ],
     },
