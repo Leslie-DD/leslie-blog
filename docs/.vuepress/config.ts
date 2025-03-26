@@ -12,8 +12,8 @@ export default defineUserConfig({
   base: "/leslie-blog/",
 
   lang: "zh-CN",
-  title: "Leslie的博客",
-  description: "Leslie的个人博客站点",
+  title: "Evan 的博客",
+  description: "Evan 的个人博客站点",
 
   head: [
     ['script',
