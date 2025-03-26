@@ -60,20 +60,21 @@ export const zhNavbar = navbar([
         text: 'Java Exception',
         link: 'JavaException.md',
       },      {
-        text: 'Java 多线程',
+        text: 'Java Concurrency',
         link: 'concurrency/',
       },
     ]
   },
 
   {
+    text: 'Android',
+    link: '/android/'
+  },
+
+  {
     text: '技术博客',
     prefix: '/blog/',
     children: [
-      {
-        text: 'Android',
-        link: 'android/',
-      },
       {
         text: '计算机基础',
         link: 'computer/',

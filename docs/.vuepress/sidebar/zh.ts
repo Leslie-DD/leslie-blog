@@ -147,7 +147,7 @@ export const zhSidebar = sidebar({
           link: '/java/JavaException.md',
         },
         {
-          text: 'Java 多线程',
+          text: 'Java Concurrency',
           link: '/java/concurrency/',
           collapsable: true,
           children: [
@@ -177,6 +177,28 @@ export const zhSidebar = sidebar({
     }
   ],
 
+  '/android/': [
+    {
+      text: 'Android',
+      link: '/android/',
+      collapsable: true,
+      children: [
+        {
+          text: 'Canvas.drawText解析',
+          link: '/android/drawText解析.md'
+        },
+        {
+          text: 'SurfaceView VS TextureView',
+          link: '/android/SurfaceVIew_VS_TextureView.md'
+        },
+        {
+          text: 'View 的事件分发机制',
+          link: '/android/view_event_distribution.md'
+        }
+      ],
+    },
+  ],
+
   '/blog/': [
     {
       text: '技术博客',
@@ -184,26 +206,7 @@ export const zhSidebar = sidebar({
       // collapsable: true,
       children: [
         {
-          text: '📱 Android',
-          link: '/blog/android/',
-          collapsable: true,
-          children: [
-            {
-              text: 'Canvas.drawText解析',
-              link: '/blog/android/drawText解析.md'
-            },
-            {
-              text: 'SurfaceView VS TextureView',
-              link: '/blog/android/SurfaceVIew_VS_TextureView.md'
-            },
-            {
-              text: 'View 的事件分发机制',
-              link: '/blog/android/view_event_distribution.md'
-            }
-          ],
-        },
-        {
-          text: '💻 计算机基础',
+          text: '计算机基础',
           link: '/blog/computer/',
           collapsable: true,
           children: [
@@ -214,7 +217,7 @@ export const zhSidebar = sidebar({
           ],
         },
         {
-          text: '🖨 后端',
+          text: '后端',
           link: '/blog/server/',
           collapsable: true,
           children: [
@@ -225,7 +228,7 @@ export const zhSidebar = sidebar({
           ],
         },
         {
-          text: '💾 数据库',
+          text: '数据库',
           link: '/blog/databases/',
           collapsable: true,
           children: [
@@ -250,17 +253,6 @@ export const zhSidebar = sidebar({
             }
           ]
         },
-        {
-          text: 'Java',
-          link: '/blog/java/',
-          collapsable: true,
-          children: [
-            {
-              text: 'Java 异常',
-              link: '/blog/java/JavaException.md'
-            },
-          ]
-        },
       ],
     },
   ],
@@ -271,7 +263,7 @@ export const zhSidebar = sidebar({
       link: '/datastructure/',
       children: [
         {
-          text: '🌳 树',
+          text: '树',
           link: '/datastructure/tree/',
           collapsible: true,
           children: [
@@ -354,7 +346,7 @@ export const zhSidebar = sidebar({
 
   '/projects/': [
     {
-      text: '📙 Reading',
+      text: 'Reading',
       link: '/projects/reading/',
       collapsible: true,
       children: [
@@ -373,14 +365,14 @@ export const zhSidebar = sidebar({
       ]
     },
     {
-      text: '🔐 Passwd',
+      text: 'Passwd',
       link: '/projects/passwd/',
     }
   ],
 
   '/notes/': [
     {
-      text: '🖋 随笔',
+      text: '随笔',
       link: '/notes/',
       children: [
         // 这么写，目录会展示二级标题
