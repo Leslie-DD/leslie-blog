@@ -175,6 +175,10 @@ export const zhSidebar = sidebar({
               text: 'ThreadLocal 详解',
               link: '/java/concurrency/ThreadLocal.md'
             },
+            {
+              text: 'ThreadLocal 详解 - Java Guide',
+              link: '/java/concurrency/ThreadLocalJavaGuide.md'
+            },
           ],
         }
       ]

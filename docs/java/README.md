@@ -1,5 +1,5 @@
 ---
-title: Java 笔记
+title: Java
 author: Evan
 editLink: false
 comment: false
