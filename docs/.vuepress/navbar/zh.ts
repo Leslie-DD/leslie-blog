@@ -72,6 +72,11 @@ export const zhNavbar = navbar([
   },
 
   {
+    text: '计算机网络',
+    link: '/network/'
+  },
+
+  {
     text: '技术博客',
     prefix: '/blog/',
     children: [

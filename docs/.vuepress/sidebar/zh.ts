@@ -210,7 +210,27 @@ export const zhSidebar = sidebar({
         {
           text: 'Android 消息机制',
           link: '/android/handler.md'
+        },
+        {
+          text: 'Android Binder 原理',
+          link: '/android/IPC_Binder.md'
         }
+
+        
+      ],
+    },
+  ],
+
+  '/network/': [
+    {
+      text: '计算机网络',
+      link: '/network/',
+      collapsable: true,
+      children: [
+        {
+          text: '图解 Https',
+          link: '/network/https.md'
+        },        
       ],
     },
   ],
